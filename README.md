@@ -1,0 +1,1 @@
+Mac & iOS Library which allows you to create object-oriented interfaces to connect with your Mango server side services
