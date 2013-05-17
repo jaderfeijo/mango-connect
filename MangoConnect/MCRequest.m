@@ -10,6 +10,7 @@
 #import "MCResponse.h"
 #import "MCRequestManager.h"
 #import "ASIFormDataRequest.h"
+#import "ASIHTTPRequestDelegate.h"
 
 @implementation MCRequest
 
@@ -93,6 +94,8 @@
 	
 	ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
 	[request setRequestMethod:requestMethod];
+	[request setUsername:[[self requestManager] username]];
+	[request setPassword:[[self requestManager] password]];
 	[request setDelegate:self];
 	
 	for (NSString *parameter in [parameters allKeys]) {

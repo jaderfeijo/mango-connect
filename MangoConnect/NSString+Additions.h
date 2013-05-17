@@ -13,7 +13,7 @@
 
 +(NSString *)formatBytes:(NSUInteger)bytes;
 
--(NSString *)stringByCapitalizingFirstCharachter;
+-(NSString *)stringByCapitalizingFirstCharacter;
 -(NSString *)stringByDecapitalizingFirstCharacter;
 -(NSString *)capitalizedWordsSeparetedBy:(NSString *)separator;
 -(NSString *)capitalizedWords;

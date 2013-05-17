@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9A32ECE4170380F60089F567"
-               BuildableName = "MangoConnectCocoa.dylib"
-               BlueprintName = "MangoConnectCocoa"
+               BlueprintIdentifier = "9A34646F1703CE5D004FA0F2"
+               BuildableName = "libMangoConnect.a"
+               BlueprintName = "MangoConnect"
                ReferencedContainer = "container:MangoConnect.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

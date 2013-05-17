@@ -4370,8 +4370,6 @@ static NSOperationQueue *sharedQueue = nil;
 
 #pragma mark get user agent
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated"
 + (NSString *)defaultUserAgentString
 {
 	@synchronized (self) {
@@ -4442,7 +4440,6 @@ static NSOperationQueue *sharedQueue = nil;
 	}
 	return nil;
 }
-#pragma GCC diagnostic pop
 
 + (void)setDefaultUserAgentString:(NSString *)agent
 {

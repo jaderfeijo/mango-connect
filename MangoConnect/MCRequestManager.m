@@ -24,6 +24,8 @@ static MCRequestManager *_requestManager;
 @synthesize productionServerAddress;
 @synthesize developmentServerAddress;
 @synthesize useProductionServer;
+@synthesize username;
+@synthesize password;
 
 //
 // MCRequestManager Methods
@@ -71,6 +73,8 @@ static MCRequestManager *_requestManager;
 	[requests release];
 	[productionServerAddress release];
 	[developmentServerAddress release];
+	[username release];
+	[password release];
 	[super dealloc];
 }
 

@@ -29,7 +29,7 @@
 	}
 }
 
--(NSString *)stringByCapitalizingFirstCharachter {
+-(NSString *)stringByCapitalizingFirstCharacter {
 	if ([self length] > 0) {
 		NSString *firstCapChar = [[self substringToIndex:1] capitalizedString];
 		return [[self lowercaseString] stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:firstCapChar];
@@ -52,7 +52,7 @@
 	
 	NSMutableArray *capitalizedWords = [[NSMutableArray alloc] initWithCapacity:[words count]];
 	for (NSString *word in words) {
-		[capitalizedWords addObject:[word stringByCapitalizingFirstCharachter]];
+		[capitalizedWords addObject:[word stringByCapitalizingFirstCharacter]];
 	}
 	
 	NSString *capitalizedWordsString = [capitalizedWords componentsJoinedByString:separator];

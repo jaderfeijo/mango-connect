@@ -17,12 +17,16 @@
 	NSString *productionServerAddress;
 	NSString *developmentServerAddress;
 	BOOL useProductionServer;
+	NSString *username;
+	NSString *password;
 }
 
 @property (nonatomic, retain) MCModel *model;
 @property (nonatomic, retain) NSString *productionServerAddress;
 @property (nonatomic, retain) NSString *developmentServerAddress;
 @property (assign) BOOL useProductionServer;
+@property (nonatomic, retain) NSString *username;
+@property (nonatomic, retain) NSString *password;
 
 +(MCRequestManager *)defaultManager;
 

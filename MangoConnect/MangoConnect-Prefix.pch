@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'MangoConnect-Touch' target in the 'MangoConnect-Touch' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+#endif
