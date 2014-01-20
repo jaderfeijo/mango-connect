@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "MCRequestDelegate.h"
-#import "ASIHTTPRequestDelegate.h"
 
 @class MCRequestManager;
 
-@interface MCRequest : NSObject <ASIHTTPRequestDelegate> {
+@interface MCRequest : NSObject {
 	MCRequestManager *requestManager;
 	Class responseClass;
 	id<MCRequestDelegate> delegate;
@@ -31,12 +30,15 @@
 
 -(id)init;
 -(id)initWithRequestManager:(MCRequestManager *)manager;
+
 -(void)setValue:(id)value forArgument:(NSString *)argument;
 -(id)valueForArgument:(NSString *)argument;
 -(void)removeArgument:(NSString *)argument;
+
 -(void)setValue:(id)value forParameter:(NSString *)parameter;
 -(id)valueForParameter:(NSString *)parameter;
 -(void)removeParameter:(NSString *)parameter;
+
 -(NSURL *)url;
 -(void)send;
 
