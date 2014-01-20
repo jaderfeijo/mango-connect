@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "MCRequestDelegate.h"
+#import "ASIHTTPRequestDelegate.h"
 
 @class MCRequestManager;
 
-@interface MCRequest : NSObject {
+@interface MCRequest : NSObject <ASIHTTPRequestDelegate> {
 	MCRequestManager *requestManager;
 	Class responseClass;
 	id<MCRequestDelegate> delegate;
