@@ -11,6 +11,14 @@
 #import "NSString+Additions.h"
 #import "NSData+Base64.h"
 
+@interface MCObject () {
+	NSMutableDictionary *_properties;
+	NSMutableDictionary *_relationships;
+	MCModel *_model;
+}
+
+@end
+
 @implementation MCObject
 
 //
@@ -36,12 +44,14 @@ void dynamicSetter(id self, SEL _cmd, NSObject *newValue) {
 	[self setValue:newValue forProperty:propertyName];
 }
 
-NSObject * dynamicGetter(id self, SEL _cmd) {
-	NSString *propertyName = [NSStringFromSelector(_cmd) stringByDecapitalizingFirstCharacter];
-	return [self valueForProperty:propertyName];
+id dynamicGetter(id self, SEL _cmd) {
+	NSString *attributeName = [NSStringFromSelector(_cmd) stringByDecapitalizingFirstCharacter];
+	id value = [self valueForProperty:attributeName];
+	if (!value) {
+		value = [self objectsForRelationship:attributeName];
+	}
+	return value;
 }
-
-@synthesize entity;
 
 //
 // MCObject Methods
@@ -50,16 +60,16 @@ NSObject * dynamicGetter(id self, SEL _cmd) {
 
 - (id)init {
 	if ((self = [super init])) {
-		properties = [[NSMutableDictionary alloc] init];
-		relationships = [[NSMutableDictionary alloc] init];
+		_properties = [[NSMutableDictionary alloc] init];
+		_relationships = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
 
 - (id)initWithXML:(TBXMLElement *)xmlElement model:(MCModel *)xmlModel {
 	if ((self = [self init])) {
-		model = [xmlModel retain];
-		entity = [[TBXML elementName:xmlElement] retain];
+		_model = [xmlModel retain];
+		_entity = [[TBXML elementName:xmlElement] retain];
 		
 		if (xmlElement) {
 			TBXMLElement *attributeElement = xmlElement->firstChild;
@@ -68,8 +78,8 @@ NSObject * dynamicGetter(id self, SEL _cmd) {
 				if (attributeElement->firstChild) {
 					TBXMLElement *objectElement = attributeElement->firstChild;
 					while (objectElement) {
-						Class ObjectClass = [model classForEntityNamed:[TBXML elementName:objectElement]];
-						id object = [[ObjectClass alloc] initWithXML:objectElement model:model];
+						Class ObjectClass = [_model classForEntityNamed:[TBXML elementName:objectElement]];
+						id object = [[ObjectClass alloc] initWithXML:objectElement model:_model];
 						[self addObject:object toRelationship:[TBXML elementName:attributeElement]];
 						[object release];
 					}
@@ -100,7 +110,7 @@ NSObject * dynamicGetter(id self, SEL _cmd) {
 - (id)initWithDictionary:(NSDictionary *)dict model:(MCModel *)xmlModel {
 	if ((self = [self init])) {
 		// Load the properties dictionary
-		[properties addEntriesFromDictionary:[dict objectForKey:@"properties"]];
+		[_properties addEntriesFromDictionary:[dict objectForKey:@"properties"]];
 		
 		// Load the relationships dictionary
 		NSDictionary *persistedRelationships = [dict objectForKey:@"relationships"];
@@ -108,59 +118,59 @@ NSObject * dynamicGetter(id self, SEL _cmd) {
 		// Convert the persistent dictionaries into objects and load them into the relationships dictionary
 		for (NSString *relationshipName in [persistedRelationships allKeys]) {
 			NSDictionary *objectDict = [persistedRelationships objectForKey:relationshipName];
-			Class ObjectClass = [model classForEntityNamed:[objectDict objectForKey:@"entity"]];
-			id object = [[ObjectClass alloc] initWithDictionary:objectDict model:model];
-			[relationships setObject:object forKey:relationshipName];
+			Class ObjectClass = [_model classForEntityNamed:[objectDict objectForKey:@"entity"]];
+			id object = [[ObjectClass alloc] initWithDictionary:objectDict model:_model];
+			[_relationships setObject:object forKey:relationshipName];
 			[object release];
 		}
 		
 		// Load the entity name for this object
-		entity = [[dict objectForKey:@"entity"] retain];
+		_entity = [[dict objectForKey:@"entity"] retain];
 	}
 	return self;
 }
 
 - (void)setValue:(id)value forProperty:(NSString *)property {
-	[properties setValue:value forKey:property];
+	[_properties setValue:value forKey:property];
 }
 
 - (id)valueForProperty:(NSString *)property {
-	return [properties valueForKey:property];
+	return [_properties valueForKey:property];
 }
 
 - (void)addObject:(MCObject *)object toRelationship:(NSString *)relationship {
-	NSMutableSet *set = [relationships objectForKey:relationship];
+	NSMutableSet *set = [_relationships objectForKey:relationship];
 	if (!set) {
 		set = [[NSMutableSet alloc] init];
-		[relationships setObject:set forKey:relationship];
+		[_relationships setObject:set forKey:relationship];
 		[set autorelease];
 	}
 	[set addObject:object];
 }
 
 - (void)removeObject:(MCObject *)object fromRelationship:(NSString *)relationship {
-	NSMutableSet *set = [relationships objectForKey:relationship];
+	NSMutableSet *set = [_relationships objectForKey:relationship];
 	[set removeObject:object];
 }
 
 - (void)removeAllObjectsFromRelationship:(NSString *)relationship {
-	NSMutableSet *set = [relationships objectForKey:relationship];
+	NSMutableSet *set = [_relationships objectForKey:relationship];
 	[set removeAllObjects];
 }
 
 - (NSSet *)objectsForRelationship:(NSString *)relationship {
-	return (NSSet *)[relationships objectForKey:relationship];
+	return (NSSet *)[_relationships objectForKey:relationship];
 }
 
 - (NSDictionary *)toDictionary {
 	NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:2];
 	
 	// Add properties to dictionary
-	[dict setObject:properties forKey:@"properties"];
+	[dict setObject:_properties forKey:@"properties"];
 	
 	// Convert all objects inside relationships into dictionaries we can persist
-	NSMutableDictionary *convertedRelationships = [[NSMutableDictionary alloc] initWithCapacity:[relationships count]];
-	for (NSString *relationshipName in relationships) {
+	NSMutableDictionary *convertedRelationships = [[NSMutableDictionary alloc] initWithCapacity:[_relationships count]];
+	for (NSString *relationshipName in _relationships) {
 		NSMutableSet *relationshipObjects = [[NSMutableSet alloc] init];
 		for (MCObject *object in [self objectsForRelationship:relationshipName]) {
 			[relationshipObjects addObject:[object toDictionary]];
@@ -185,10 +195,10 @@ NSObject * dynamicGetter(id self, SEL _cmd) {
 #pragma mark - NSObject Methods -
 
 - (void)dealloc {
-	[properties release];
-	[relationships release];
-	[model release];
-	[entity release];
+	[_properties release];
+	[_relationships release];
+	[_model release];
+	[_entity release];
 	[super dealloc];
 }
 

@@ -10,9 +10,13 @@
 #import "MCModel.h"
 #import "MCObject.h"
 
-@implementation MCObjectCollection
+@interface MCObjectCollection () {
+	NSMutableArray *_objects;
+}
 
-@synthesize model;
+@end
+
+@implementation MCObjectCollection
 
 //
 // MCObjectCollection Methods
@@ -21,16 +25,16 @@
 
 -(id)initWithXML:(TBXML *)xml andModel:(MCModel *)m {
 	if ((self = [super init])) {
-		model = [m retain];
-		objects = [[NSMutableArray alloc] init];
+		_model = [m retain];
+		_objects = [[NSMutableArray alloc] init];
 		
 		TBXMLElement *rootElement = [xml rootXMLElement];
 		if (rootElement) {
 			TBXMLElement *objectElement = rootElement->firstChild;
 			while (objectElement) {
-				Class ObjectClass = [model classForEntityNamed:[TBXML elementName:objectElement]];
-				id object = [[ObjectClass alloc] initWithXML:objectElement model:model];
-				[objects addObject:object];
+				Class ObjectClass = [_model classForEntityNamed:[TBXML elementName:objectElement]];
+				id object = [[ObjectClass alloc] initWithXML:objectElement model:_model];
+				[_objects addObject:object];
 				[object release];
 				objectElement = objectElement->nextSibling;
 			}
@@ -50,50 +54,50 @@
 
 -(id)initWithContentsOfFile:(NSString *)fileName andModel:(MCModel *)m {
 	if ((self = [super init])) {
-		model = [m retain];
+		_model = [m retain];
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath:fileName]) {
 			NSArray *dicts = [[NSArray alloc] initWithContentsOfFile:fileName];
 			
-			objects = [[NSMutableArray alloc] initWithCapacity:[dicts count]];
+			_objects = [[NSMutableArray alloc] initWithCapacity:[dicts count]];
 			
 			for (NSDictionary *dict in dicts) {
-				Class ObjectClass = [model classForEntityNamed:[dict objectForKey:@"entity"]];
-				id object = [[ObjectClass alloc] initWithDictionary:dict model:model];
+				Class ObjectClass = [_model classForEntityNamed:[dict objectForKey:@"entity"]];
+				id object = [[ObjectClass alloc] initWithDictionary:dict model:_model];
 				if (object) {
-					[objects addObject:object];
+					[_objects addObject:object];
 					[object release];
 				}
 			}
 			
 			[dicts release];
 		} else {
-			objects = [[NSMutableArray alloc] init];
+			_objects = [[NSMutableArray alloc] init];
 		}
 	}
 	return self;
 }
 
 -(void)mergeWithCollection:(MCObjectCollection *)collection {
-	[objects addObjectsFromArray:[collection objects]];
+	[_objects addObjectsFromArray:[collection objects]];
 }
 
 -(void)addObject:(MCObject *)object {
-	[objects addObject:object];
+	[_objects addObject:object];
 }
 
 -(void)removeObject:(MCObject *)object {
-	[objects removeObject:object];
+	[_objects removeObject:object];
 }
 
 -(NSArray *)objects {
-	return (NSArray *)objects;
+	return (NSArray *)_objects;
 }
 
 -(NSArray *)toArray {
-	NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:[objects count]];
+	NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:[_objects count]];
 	
-	for (MCObject *object in objects) {
+	for (MCObject *object in _objects) {
 		[array addObject:[object toDictionary]];
 	}
 	
@@ -110,8 +114,8 @@
 #pragma mark - NSObject Methods -
 
 -(void)dealloc {
-	[model release];
-	[objects release];
+	[_model release];
+	[_objects release];
 	[super dealloc];
 }
 

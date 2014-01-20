@@ -8,6 +8,12 @@
 
 #import "MCModel.h"
 
+@interface MCModel () {
+	NSMutableDictionary *_model;
+}
+
+@end
+
 @implementation MCModel
 
 //
@@ -17,25 +23,25 @@
 
 - (id)init {
 	if ((self = [super init])) {
-		model = [[NSMutableDictionary alloc] init];
+		_model = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
 
 - (void)setClass:(Class)class forEntityNamed:(NSString *)name {
-	[model setObject:class forKey:name];
+	[_model setObject:class forKey:name];
 }
 
 - (Class)classForEntityNamed:(NSString *)name {
-	return [model objectForKey:name];
+	return [_model objectForKey:name];
 }
 
 - (void)removeClassForEntityNamed:(NSString *)name {
-	[model removeObjectForKey:name];
+	[_model removeObjectForKey:name];
 }
 
 - (NSDictionary *)model {
-	return (NSDictionary *)model;
+	return (NSDictionary *)_model;
 }
 
 //
@@ -44,7 +50,7 @@
 #pragma mark - NSObject Methods -
 
 - (void)dealloc {
-	[model release];
+	[_model release];
 	[super dealloc];
 }
 
