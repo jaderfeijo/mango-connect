@@ -4422,6 +4422,10 @@ static NSOperationQueue *sharedQueue = nil;
 
 				// From http://www.cocoadev.com/index.pl?DeterminingOSVersion
 				// We won't bother to check for systems prior to 10.4, since ASIHTTPRequest only works on 10.5+
+				// Gestalt is deprecated since 10.8, however weirdly they didn't provide anything better
+				// So the warnings for this are suppressed
+				#pragma clang diagnostic push
+				#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 				OSErr err;
 				SInt32 versionMajor, versionMinor, versionBugFix;
 				err = Gestalt(gestaltSystemVersionMajor, &versionMajor);
@@ -4431,6 +4435,7 @@ static NSOperationQueue *sharedQueue = nil;
 				err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix);
 				if (err != noErr) return nil;
 				OSVersion = [NSString stringWithFormat:@"%u.%u.%u", versionMajor, versionMinor, versionBugFix];
+				#pragma clang diagnostic pop
 			#endif
 
 			// Takes the form "My Application 1.0 (Macintosh; Mac OS X 10.5.7; en_GB)"
