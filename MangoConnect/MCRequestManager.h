@@ -7,18 +7,30 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MCRequestManagerError.h"
 
 @class MCModel;
 @class MCRequest;
+@class MCObject;
 
-@interface MCRequestManager : NSObject {
+typedef void (^ResponseHandlerBlock)(NSInteger responseCode, NSArray * objects, NSError * error);
+
+typedef enum
+{
+	MCAuthenticationMethodBasic,
+	MCAuthenticationMethodDigest
+}
+MCAuthenticationMethod;
+
+@interface MCRequestManager : NSObject
+{
 	MCModel *model;
-	NSMutableArray *requests;
 	NSString *productionServerAddress;
 	NSString *developmentServerAddress;
 	BOOL useProductionServer;
 	NSString *username;
 	NSString *password;
+	MCAuthenticationMethod authenticationMethod;
 }
 
 @property (nonatomic, retain) MCModel *model;
@@ -27,12 +39,13 @@
 @property (assign) BOOL useProductionServer;
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic, assign) MCAuthenticationMethod authenticationMethod;
 
 +(MCRequestManager *)defaultManager;
 
--(void)addRequest:(MCRequest *)request;
--(void)removeRequest:(MCRequest *)request;
--(NSArray *)requests;
 -(NSString *)serverAddress;
+-(void)sendWithAddress:(NSString *)address withBlock:(ResponseHandlerBlock)responseHandler;
+-(void)sendWithRequest:(MCRequest *)request withBlock:(ResponseHandlerBlock)responseHandler;
+
 
 @end
