@@ -7,6 +7,8 @@
 //
 
 #import "MCRequestManager.h"
+#import "MCObjectCollection.h"
+#import "MCRequest.h"
 #import "MCModel.h"
 
 static MCRequestManager *_requestManager;
@@ -26,6 +28,7 @@ static MCRequestManager *_requestManager;
 @synthesize useProductionServer;
 @synthesize username;
 @synthesize password;
+@synthesize authenticationMethod;
 
 //
 // MCRequestManager Methods
@@ -35,24 +38,11 @@ static MCRequestManager *_requestManager;
 - (id)init {
 	if ((self = [super init])) {
 		model = [[MCModel alloc] init];
-		requests = [[NSMutableArray alloc] init];
 		productionServerAddress = nil;
 		developmentServerAddress = nil;
 		useProductionServer = YES;
 	}
 	return self;
-}
-
-- (void)addRequest:(MCRequest *)request {
-	[requests addObject:request];
-}
-
-- (void)removeRequest:(MCRequest *)request {
-	[requests removeObject:request];
-}
-
-- (NSArray *)requests {
-	return (NSArray *)requests;
 }
 
 - (NSString *)serverAddress {
@@ -63,6 +53,73 @@ static MCRequestManager *_requestManager;
 	}
 }
 
+-(void)sendWithAddress:(NSString *)address withBlock:(ResponseHandlerBlock)responseHandler
+{
+	MCRequest * request = [[MCRequest alloc] initWithRequestManager:self];
+	[request setAddress:address];
+	[self sendWithRequest:request withBlock:responseHandler];
+}
+
+-(void)sendWithRequest:(MCRequest *)request withBlock:(ResponseHandlerBlock)responseHandler
+{
+	//set up authentication which keeps stored somewhere in the system, via the NSURLCredentialStorage system object
+	if (username)
+	{
+		NSString * authMethod;
+		if (authenticationMethod == MCAuthenticationMethodBasic)
+			authMethod = NSURLAuthenticationMethodHTTPBasic;
+		else if (authenticationMethod == MCAuthenticationMethodDigest)
+			authMethod = NSURLAuthenticationMethodHTTPDigest;
+		else
+			authMethod = nil;
+		
+		NSURLCredential * credentials = [NSURLCredential credentialWithUser:username password:password persistence:NSURLCredentialPersistenceForSession];
+		NSURLProtectionSpace * protectionSpace = [[NSURLProtectionSpace alloc] initWithHost:[request.url host] port:[request.url.port integerValue] protocol:@"http" realm:nil authenticationMethod:authMethod];
+		[[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential:credentials forProtectionSpace:protectionSpace];
+		[protectionSpace release];
+	}
+	
+	NSMutableURLRequest * httpRequest = [NSMutableURLRequest requestWithURL:[request url]];
+	[httpRequest setHTTPMethod:[request requestMethod]];
+	[httpRequest setURL:[request url]];
+	[httpRequest setHTTPBody:[self parametersDataInRequest:request]];
+	
+	NSOperationQueue * httpSessionQueue = [[NSOperationQueue alloc] init];
+	[NSURLConnection sendAsynchronousRequest:httpRequest queue:httpSessionQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+		if ([data length])
+		{
+			NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)response;
+			
+			MCObjectCollection * collection = [[MCObjectCollection alloc] initWithXMLString:[NSString stringWithUTF8String:[data bytes]] andModel:[self model]];
+			
+			if (!connectionError && [httpResponse statusCode] && [httpResponse statusCode] != 200)
+				connectionError = [MCRequestManagerError errorWithCode:[httpResponse statusCode]];
+			
+			if (responseHandler)
+				responseHandler([httpResponse statusCode], [collection objects], connectionError);
+			
+			[collection release];
+		}
+		else
+		{
+			if (responseHandler)
+				responseHandler(0, nil, connectionError);
+		}
+	}];
+	[httpSessionQueue release];
+}
+
+- (NSData *)parametersDataInRequest:(MCRequest *)request
+{
+	NSMutableString * parametersString = [NSMutableString stringWithString:@""];
+	
+	for (NSString * paramKey in [request parameters]) {
+		[parametersString appendFormat:@"%@=%@&", [paramKey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [request.parameters[paramKey] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	}
+	
+	return [parametersString dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 //
 // NSObject Methods
 //
@@ -70,7 +127,6 @@ static MCRequestManager *_requestManager;
 
 - (void)dealloc {
 	[model release];
-	[requests release];
 	[productionServerAddress release];
 	[developmentServerAddress release];
 	[username release];

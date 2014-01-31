@@ -7,6 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		70001A18189AC0E000946261 /* MCRequestManagerError.h in Headers */ = {isa = PBXBuildFile; fileRef = 70001A16189AC0E000946261 /* MCRequestManagerError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70001A19189AC0E000946261 /* MCRequestManagerError.m in Sources */ = {isa = PBXBuildFile; fileRef = 70001A17189AC0E000946261 /* MCRequestManagerError.m */; };
+		70001A1A189AC31C00946261 /* MCRequestManagerError.h in Headers */ = {isa = PBXBuildFile; fileRef = 70001A16189AC0E000946261 /* MCRequestManagerError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70001A1B189AC34600946261 /* MCRequestManagerError.m in Sources */ = {isa = PBXBuildFile; fileRef = 70001A17189AC0E000946261 /* MCRequestManagerError.m */; };
+		70A9E11418914041000E62A2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A9E11318914041000E62A2 /* Foundation.framework */; };
+		70A9E1181891405F000E62A2 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A9E1171891405F000E62A2 /* CoreServices.framework */; };
+		70A9E11A1891406C000E62A2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A9E1191891406C000E62A2 /* libz.dylib */; };
+		70A9E12D1891408F000E62A2 /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B5616F15F7700096E10 /* TBXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E12E1891408F000E62A2 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B5716F15F7700096E10 /* TBXML.m */; };
+		70A9E12F1891408F000E62A2 /* TBXML+Compression.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B5816F15F7700096E10 /* TBXML+Compression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E1301891408F000E62A2 /* TBXML+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B5916F15F7700096E10 /* TBXML+Compression.m */; };
+		70A9E1311891408F000E62A2 /* TBXML+HTTP.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B5A16F15F7700096E10 /* TBXML+HTTP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E1321891408F000E62A2 /* TBXML+HTTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B5B16F15F7700096E10 /* TBXML+HTTP.m */; };
+		70A9E13318914096000E62A2 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B6716F15FBE00096E10 /* NSData+Base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E13418914096000E62A2 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B6816F15FBE00096E10 /* NSData+Base64.m */; };
+		70A9E13518914096000E62A2 /* NSString+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B6316F15FAC00096E10 /* NSString+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E13618914096000E62A2 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B6416F15FAC00096E10 /* NSString+Additions.m */; };
+		70A9E137189140B2000E62A2 /* MCModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AFF16F15E0C00096E10 /* MCModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E138189140B2000E62A2 /* MCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B0016F15E0C00096E10 /* MCModel.m */; };
+		70A9E139189140B2000E62A2 /* MCObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B0116F15E0C00096E10 /* MCObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E13A189140B2000E62A2 /* MCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B0216F15E0C00096E10 /* MCObject.m */; };
+		70A9E13B189140B2000E62A2 /* MCObjectCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B0316F15E0C00096E10 /* MCObjectCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E13C189140B2000E62A2 /* MCObjectCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B0416F15E0C00096E10 /* MCObjectCollection.m */; };
+		70A9E13D189140B2000E62A2 /* MCRequestManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AF016F15DFE00096E10 /* MCRequestManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E13E189140B2000E62A2 /* MCRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3AF116F15DFE00096E10 /* MCRequestManager.m */; };
+		70A9E13F189140B2000E62A2 /* MCRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AF216F15DFE00096E10 /* MCRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A9E140189140B2000E62A2 /* MCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3AF316F15DFE00096E10 /* MCRequest.m */; };
+		70A9E144189140BF000E62A2 /* MangoConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AED16F15DF000096E10 /* MangoConnect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464711703CE5D004FA0F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A32ECC5170380280089F567 /* Foundation.framework */; };
 		9A3464831703CE9A004FA0F2 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B5716F15F7700096E10 /* TBXML.m */; };
 		9A3464841703CE9A004FA0F2 /* TBXML+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B5916F15F7700096E10 /* TBXML+Compression.m */; };
@@ -18,42 +46,17 @@
 		9A34648A1703CE9A004FA0F2 /* MCObjectCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3B0416F15E0C00096E10 /* MCObjectCollection.m */; };
 		9A34648B1703CE9A004FA0F2 /* MCRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3AF116F15DFE00096E10 /* MCRequestManager.m */; };
 		9A34648C1703CE9A004FA0F2 /* MCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3AF316F15DFE00096E10 /* MCRequest.m */; };
-		9A34648D1703CE9A004FA0F2 /* MCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F3AF616F15DFE00096E10 /* MCResponse.m */; };
 		9A34648F1703CEB9004FA0F2 /* MCModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AFF16F15E0C00096E10 /* MCModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464901703CEB9004FA0F2 /* MCObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B0116F15E0C00096E10 /* MCObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464911703CEB9004FA0F2 /* MCObjectCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B0316F15E0C00096E10 /* MCObjectCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464921703CEB9004FA0F2 /* MCRequestManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AF016F15DFE00096E10 /* MCRequestManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464931703CEB9004FA0F2 /* MCRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AF216F15DFE00096E10 /* MCRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464941703CEB9004FA0F2 /* MCRequestDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AF416F15DFE00096E10 /* MCRequestDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464951703CEB9004FA0F2 /* MCResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AF516F15DFE00096E10 /* MCResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464961703CEB9004FA0F2 /* MangoConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3AED16F15DF000096E10 /* MangoConnect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464A21703CF47004FA0F2 /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B5616F15F7700096E10 /* TBXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464A31703CF47004FA0F2 /* TBXML+Compression.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B5816F15F7700096E10 /* TBXML+Compression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464A41703CF47004FA0F2 /* TBXML+HTTP.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B5A16F15F7700096E10 /* TBXML+HTTP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464A51703CF47004FA0F2 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B6716F15FBE00096E10 /* NSData+Base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3464A61703CF47004FA0F2 /* NSString+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3F3B6316F15FAC00096E10 /* NSString+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464BB1703D021004FA0F2 /* ASIHTTPRequestConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464A71703D021004FA0F2 /* ASIHTTPRequestConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464BC1703D021004FA0F2 /* ASICacheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464A81703D021004FA0F2 /* ASICacheDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464BD1703D021004FA0F2 /* ASIHTTPRequestDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464A91703D021004FA0F2 /* ASIHTTPRequestDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464BE1703D021004FA0F2 /* ASIProgressDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464AA1703D021004FA0F2 /* ASIProgressDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464BF1703D021004FA0F2 /* ASIAuthenticationDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464AB1703D021004FA0F2 /* ASIAuthenticationDialog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464C01703D021004FA0F2 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464AC1703D021004FA0F2 /* ASIAuthenticationDialog.m */; };
-		9A3464C11703D021004FA0F2 /* ASIInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464AD1703D021004FA0F2 /* ASIInputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464C21703D021004FA0F2 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464AE1703D021004FA0F2 /* ASIInputStream.m */; };
-		9A3464C31703D021004FA0F2 /* ASIFormDataRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464AF1703D021004FA0F2 /* ASIFormDataRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464C41703D021004FA0F2 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464B01703D021004FA0F2 /* ASIFormDataRequest.m */; };
-		9A3464C51703D021004FA0F2 /* ASIHTTPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464B11703D021004FA0F2 /* ASIHTTPRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464C61703D021004FA0F2 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464B21703D021004FA0F2 /* ASIHTTPRequest.m */; };
-		9A3464C71703D021004FA0F2 /* ASINetworkQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464B31703D021004FA0F2 /* ASINetworkQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464C81703D021004FA0F2 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464B41703D021004FA0F2 /* ASINetworkQueue.m */; };
-		9A3464C91703D021004FA0F2 /* ASIDownloadCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464B51703D021004FA0F2 /* ASIDownloadCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464CA1703D021004FA0F2 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464B61703D021004FA0F2 /* ASIDownloadCache.m */; };
-		9A3464CB1703D021004FA0F2 /* ASIDataDecompressor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464B71703D021004FA0F2 /* ASIDataDecompressor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464CC1703D021004FA0F2 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464B81703D021004FA0F2 /* ASIDataDecompressor.m */; };
-		9A3464CD1703D021004FA0F2 /* ASIDataCompressor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464B91703D021004FA0F2 /* ASIDataCompressor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464CE1703D021004FA0F2 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464BA1703D021004FA0F2 /* ASIDataCompressor.m */; };
-		9A3464D21703D02F004FA0F2 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3464D01703D02F004FA0F2 /* Reachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3464D31703D02F004FA0F2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3464D11703D02F004FA0F2 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,39 +72,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		70001A16189AC0E000946261 /* MCRequestManagerError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRequestManagerError.h; sourceTree = "<group>"; };
+		70001A17189AC0E000946261 /* MCRequestManagerError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRequestManagerError.m; sourceTree = "<group>"; };
+		70A9E0F318914017000E62A2 /* libMangoConnectOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMangoConnectOSX.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		70A9E11318914041000E62A2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		70A9E1171891405F000E62A2 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		70A9E1191891406C000E62A2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		9A32ECC5170380280089F567 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9A3464701703CE5D004FA0F2 /* libMangoConnect.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMangoConnect.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A3464741703CE5D004FA0F2 /* MangoConnect-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MangoConnect-Prefix.pch"; path = "MangoConnect/MangoConnect-Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		9A3464A71703D021004FA0F2 /* ASIHTTPRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestConfig.h; sourceTree = "<group>"; };
-		9A3464A81703D021004FA0F2 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
-		9A3464A91703D021004FA0F2 /* ASIHTTPRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestDelegate.h; sourceTree = "<group>"; };
-		9A3464AA1703D021004FA0F2 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
-		9A3464AB1703D021004FA0F2 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
-		9A3464AC1703D021004FA0F2 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
-		9A3464AD1703D021004FA0F2 /* ASIInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIInputStream.h; sourceTree = "<group>"; };
-		9A3464AE1703D021004FA0F2 /* ASIInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIInputStream.m; sourceTree = "<group>"; };
-		9A3464AF1703D021004FA0F2 /* ASIFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIFormDataRequest.h; sourceTree = "<group>"; };
-		9A3464B01703D021004FA0F2 /* ASIFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIFormDataRequest.m; sourceTree = "<group>"; };
-		9A3464B11703D021004FA0F2 /* ASIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequest.h; sourceTree = "<group>"; };
-		9A3464B21703D021004FA0F2 /* ASIHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIHTTPRequest.m; sourceTree = "<group>"; };
-		9A3464B31703D021004FA0F2 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASINetworkQueue.h; sourceTree = "<group>"; };
-		9A3464B41703D021004FA0F2 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASINetworkQueue.m; sourceTree = "<group>"; };
-		9A3464B51703D021004FA0F2 /* ASIDownloadCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDownloadCache.h; sourceTree = "<group>"; };
-		9A3464B61703D021004FA0F2 /* ASIDownloadCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDownloadCache.m; sourceTree = "<group>"; };
-		9A3464B71703D021004FA0F2 /* ASIDataDecompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataDecompressor.h; sourceTree = "<group>"; };
-		9A3464B81703D021004FA0F2 /* ASIDataDecompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataDecompressor.m; sourceTree = "<group>"; };
-		9A3464B91703D021004FA0F2 /* ASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataCompressor.h; sourceTree = "<group>"; };
-		9A3464BA1703D021004FA0F2 /* ASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataCompressor.m; sourceTree = "<group>"; };
-		9A3464D01703D02F004FA0F2 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		9A3464D11703D02F004FA0F2 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		9A3F3AED16F15DF000096E10 /* MangoConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangoConnect.h; sourceTree = "<group>"; };
 		9A3F3AF016F15DFE00096E10 /* MCRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRequestManager.h; sourceTree = "<group>"; };
 		9A3F3AF116F15DFE00096E10 /* MCRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRequestManager.m; sourceTree = "<group>"; };
 		9A3F3AF216F15DFE00096E10 /* MCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRequest.h; sourceTree = "<group>"; };
 		9A3F3AF316F15DFE00096E10 /* MCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRequest.m; sourceTree = "<group>"; };
-		9A3F3AF416F15DFE00096E10 /* MCRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRequestDelegate.h; sourceTree = "<group>"; };
-		9A3F3AF516F15DFE00096E10 /* MCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCResponse.h; sourceTree = "<group>"; };
-		9A3F3AF616F15DFE00096E10 /* MCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCResponse.m; sourceTree = "<group>"; };
 		9A3F3AFF16F15E0C00096E10 /* MCModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCModel.h; sourceTree = "<group>"; };
 		9A3F3B0016F15E0C00096E10 /* MCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCModel.m; sourceTree = "<group>"; };
 		9A3F3B0116F15E0C00096E10 /* MCObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCObject.h; sourceTree = "<group>"; };
@@ -121,6 +105,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		70A9E0F018914017000E62A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70A9E11A1891406C000E62A2 /* libz.dylib in Frameworks */,
+				70A9E1181891405F000E62A2 /* CoreServices.framework in Frameworks */,
+				70A9E11418914041000E62A2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A34646D1703CE5D004FA0F2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,13 +126,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9A3464CF1703D026004FA0F2 /* Reachability */ = {
+		70A9E11518914044000E62A2 /* OSX */ = {
 			isa = PBXGroup;
 			children = (
-				9A3464D01703D02F004FA0F2 /* Reachability.h */,
-				9A3464D11703D02F004FA0F2 /* Reachability.m */,
+				70A9E1191891406C000E62A2 /* libz.dylib */,
+				70A9E1171891405F000E62A2 /* CoreServices.framework */,
+				70A9E11318914041000E62A2 /* Foundation.framework */,
 			);
-			name = Reachability;
+			name = OSX;
+			sourceTree = "<group>";
+		};
+		70A9E11618914052000E62A2 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				9A32ECC5170380280089F567 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		9A3F3ACA16F15D8D00096E10 = {
@@ -155,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				9A3464701703CE5D004FA0F2 /* libMangoConnect.a */,
+				70A9E0F318914017000E62A2 /* libMangoConnectOSX.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,7 +166,8 @@
 		9A3F3AD516F15D8D00096E10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A32ECC5170380280089F567 /* Foundation.framework */,
+				70A9E11618914052000E62A2 /* iOS */,
+				70A9E11518914044000E62A2 /* OSX */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -170,7 +175,6 @@
 		9A3F3ADC16F15D8D00096E10 /* MangoConnect */ = {
 			isa = PBXGroup;
 			children = (
-				9A3F3B0C16F15E4200096E10 /* ASI */,
 				9A3F3B5516F15F6600096E10 /* TBXML */,
 				9A3F3B6216F15F9E00096E10 /* Additions */,
 				9A3F3AEF16F15DF300096E10 /* Classes */,
@@ -187,9 +191,8 @@
 				9A3F3AF116F15DFE00096E10 /* MCRequestManager.m */,
 				9A3F3AF216F15DFE00096E10 /* MCRequest.h */,
 				9A3F3AF316F15DFE00096E10 /* MCRequest.m */,
-				9A3F3AF416F15DFE00096E10 /* MCRequestDelegate.h */,
-				9A3F3AF516F15DFE00096E10 /* MCResponse.h */,
-				9A3F3AF616F15DFE00096E10 /* MCResponse.m */,
+				70001A16189AC0E000946261 /* MCRequestManagerError.h */,
+				70001A17189AC0E000946261 /* MCRequestManagerError.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -205,34 +208,6 @@
 				9A3F3B0416F15E0C00096E10 /* MCObjectCollection.m */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		9A3F3B0C16F15E4200096E10 /* ASI */ = {
-			isa = PBXGroup;
-			children = (
-				9A3464CF1703D026004FA0F2 /* Reachability */,
-				9A3464A71703D021004FA0F2 /* ASIHTTPRequestConfig.h */,
-				9A3464A81703D021004FA0F2 /* ASICacheDelegate.h */,
-				9A3464A91703D021004FA0F2 /* ASIHTTPRequestDelegate.h */,
-				9A3464AA1703D021004FA0F2 /* ASIProgressDelegate.h */,
-				9A3464AB1703D021004FA0F2 /* ASIAuthenticationDialog.h */,
-				9A3464AC1703D021004FA0F2 /* ASIAuthenticationDialog.m */,
-				9A3464AD1703D021004FA0F2 /* ASIInputStream.h */,
-				9A3464AE1703D021004FA0F2 /* ASIInputStream.m */,
-				9A3464AF1703D021004FA0F2 /* ASIFormDataRequest.h */,
-				9A3464B01703D021004FA0F2 /* ASIFormDataRequest.m */,
-				9A3464B11703D021004FA0F2 /* ASIHTTPRequest.h */,
-				9A3464B21703D021004FA0F2 /* ASIHTTPRequest.m */,
-				9A3464B31703D021004FA0F2 /* ASINetworkQueue.h */,
-				9A3464B41703D021004FA0F2 /* ASINetworkQueue.m */,
-				9A3464B51703D021004FA0F2 /* ASIDownloadCache.h */,
-				9A3464B61703D021004FA0F2 /* ASIDownloadCache.m */,
-				9A3464B71703D021004FA0F2 /* ASIDataDecompressor.h */,
-				9A3464B81703D021004FA0F2 /* ASIDataDecompressor.m */,
-				9A3464B91703D021004FA0F2 /* ASIDataCompressor.h */,
-				9A3464BA1703D021004FA0F2 /* ASIDataCompressor.m */,
-			);
-			name = ASI;
 			sourceTree = "<group>";
 		};
 		9A3F3B5516F15F6600096E10 /* TBXML */ = {
@@ -271,6 +246,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		70A9E0F118914017000E62A2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70A9E137189140B2000E62A2 /* MCModel.h in Headers */,
+				70A9E12D1891408F000E62A2 /* TBXML.h in Headers */,
+				70A9E13318914096000E62A2 /* NSData+Base64.h in Headers */,
+				70001A1A189AC31C00946261 /* MCRequestManagerError.h in Headers */,
+				70A9E12F1891408F000E62A2 /* TBXML+Compression.h in Headers */,
+				70A9E13B189140B2000E62A2 /* MCObjectCollection.h in Headers */,
+				70A9E13F189140B2000E62A2 /* MCRequest.h in Headers */,
+				70A9E1311891408F000E62A2 /* TBXML+HTTP.h in Headers */,
+				70A9E139189140B2000E62A2 /* MCObject.h in Headers */,
+				70A9E144189140BF000E62A2 /* MangoConnect.h in Headers */,
+				70A9E13518914096000E62A2 /* NSString+Additions.h in Headers */,
+				70A9E13D189140B2000E62A2 /* MCRequestManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A34648E1703CEA9004FA0F2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -278,35 +272,38 @@
 				9A34648F1703CEB9004FA0F2 /* MCModel.h in Headers */,
 				9A3464901703CEB9004FA0F2 /* MCObject.h in Headers */,
 				9A3464911703CEB9004FA0F2 /* MCObjectCollection.h in Headers */,
+				70001A18189AC0E000946261 /* MCRequestManagerError.h in Headers */,
 				9A3464921703CEB9004FA0F2 /* MCRequestManager.h in Headers */,
 				9A3464931703CEB9004FA0F2 /* MCRequest.h in Headers */,
-				9A3464941703CEB9004FA0F2 /* MCRequestDelegate.h in Headers */,
-				9A3464951703CEB9004FA0F2 /* MCResponse.h in Headers */,
 				9A3464961703CEB9004FA0F2 /* MangoConnect.h in Headers */,
 				9A3464A21703CF47004FA0F2 /* TBXML.h in Headers */,
 				9A3464A31703CF47004FA0F2 /* TBXML+Compression.h in Headers */,
 				9A3464A41703CF47004FA0F2 /* TBXML+HTTP.h in Headers */,
 				9A3464A51703CF47004FA0F2 /* NSData+Base64.h in Headers */,
 				9A3464A61703CF47004FA0F2 /* NSString+Additions.h in Headers */,
-				9A3464BB1703D021004FA0F2 /* ASIHTTPRequestConfig.h in Headers */,
-				9A3464BC1703D021004FA0F2 /* ASICacheDelegate.h in Headers */,
-				9A3464BD1703D021004FA0F2 /* ASIHTTPRequestDelegate.h in Headers */,
-				9A3464BE1703D021004FA0F2 /* ASIProgressDelegate.h in Headers */,
-				9A3464BF1703D021004FA0F2 /* ASIAuthenticationDialog.h in Headers */,
-				9A3464C11703D021004FA0F2 /* ASIInputStream.h in Headers */,
-				9A3464C31703D021004FA0F2 /* ASIFormDataRequest.h in Headers */,
-				9A3464C51703D021004FA0F2 /* ASIHTTPRequest.h in Headers */,
-				9A3464C71703D021004FA0F2 /* ASINetworkQueue.h in Headers */,
-				9A3464C91703D021004FA0F2 /* ASIDownloadCache.h in Headers */,
-				9A3464CB1703D021004FA0F2 /* ASIDataDecompressor.h in Headers */,
-				9A3464CD1703D021004FA0F2 /* ASIDataCompressor.h in Headers */,
-				9A3464D21703D02F004FA0F2 /* Reachability.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		70A9E0F218914017000E62A2 /* MangoConnectOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70A9E10D18914018000E62A2 /* Build configuration list for PBXNativeTarget "MangoConnectOSX" */;
+			buildPhases = (
+				70A9E0EF18914017000E62A2 /* Sources */,
+				70A9E0F018914017000E62A2 /* Frameworks */,
+				70A9E0F118914017000E62A2 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MangoConnectOSX;
+			productName = MangoConnectOSX;
+			productReference = 70A9E0F318914017000E62A2 /* libMangoConnectOSX.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		9A34646F1703CE5D004FA0F2 /* MangoConnect */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9A3464791703CE5D004FA0F2 /* Build configuration list for PBXNativeTarget "MangoConnect" */;
@@ -347,11 +344,30 @@
 			projectRoot = "";
 			targets = (
 				9A34646F1703CE5D004FA0F2 /* MangoConnect */,
+				70A9E0F218914017000E62A2 /* MangoConnectOSX */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		70A9E0EF18914017000E62A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70A9E13E189140B2000E62A2 /* MCRequestManager.m in Sources */,
+				70A9E12E1891408F000E62A2 /* TBXML.m in Sources */,
+				70A9E13418914096000E62A2 /* NSData+Base64.m in Sources */,
+				70A9E1321891408F000E62A2 /* TBXML+HTTP.m in Sources */,
+				70A9E13618914096000E62A2 /* NSString+Additions.m in Sources */,
+				70A9E1301891408F000E62A2 /* TBXML+Compression.m in Sources */,
+				70A9E13A189140B2000E62A2 /* MCObject.m in Sources */,
+				70A9E13C189140B2000E62A2 /* MCObjectCollection.m in Sources */,
+				70001A1B189AC34600946261 /* MCRequestManagerError.m in Sources */,
+				70A9E140189140B2000E62A2 /* MCRequest.m in Sources */,
+				70A9E138189140B2000E62A2 /* MCModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A34646C1703CE5D004FA0F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -364,30 +380,74 @@
 				9A3464881703CE9A004FA0F2 /* MCModel.m in Sources */,
 				9A3464891703CE9A004FA0F2 /* MCObject.m in Sources */,
 				9A34648A1703CE9A004FA0F2 /* MCObjectCollection.m in Sources */,
+				70001A19189AC0E000946261 /* MCRequestManagerError.m in Sources */,
 				9A34648B1703CE9A004FA0F2 /* MCRequestManager.m in Sources */,
 				9A34648C1703CE9A004FA0F2 /* MCRequest.m in Sources */,
-				9A34648D1703CE9A004FA0F2 /* MCResponse.m in Sources */,
-				9A3464C01703D021004FA0F2 /* ASIAuthenticationDialog.m in Sources */,
-				9A3464C21703D021004FA0F2 /* ASIInputStream.m in Sources */,
-				9A3464C41703D021004FA0F2 /* ASIFormDataRequest.m in Sources */,
-				9A3464C61703D021004FA0F2 /* ASIHTTPRequest.m in Sources */,
-				9A3464C81703D021004FA0F2 /* ASINetworkQueue.m in Sources */,
-				9A3464CA1703D021004FA0F2 /* ASIDownloadCache.m in Sources */,
-				9A3464CC1703D021004FA0F2 /* ASIDataDecompressor.m in Sources */,
-				9A3464CE1703D021004FA0F2 /* ASIDataCompressor.m in Sources */,
-				9A3464D31703D02F004FA0F2 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		70A9E10E18914018000E62A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		70A9E10F18914018000E62A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		9A34647A1703CE5D004FA0F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = "/tmp/$(TARGET_NAME).dst";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(TARGET_NAME)/$(TARGET_NAME)-Prefix.pch";
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
@@ -400,7 +460,7 @@
 			buildSettings = {
 				DSTROOT = "/tmp/$(TARGET_NAME).dst";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(TARGET_NAME)/$(TARGET_NAME)-Prefix.pch";
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
@@ -464,6 +524,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		70A9E10D18914018000E62A2 /* Build configuration list for PBXNativeTarget "MangoConnectOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70A9E10E18914018000E62A2 /* Debug */,
+				70A9E10F18914018000E62A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9A3464791703CE5D004FA0F2 /* Build configuration list for PBXNativeTarget "MangoConnect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

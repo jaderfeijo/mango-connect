@@ -14,7 +14,5 @@
 #import "MCObjectCollection.h"
 #import "MCRequestManager.h"
 #import "MCRequest.h"
-#import "MCRequestDelegate.h"
-#import "MCResponse.h"
 
 #endif
