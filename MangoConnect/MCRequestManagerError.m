@@ -33,7 +33,7 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"The server returned HTTP status %ld.", errorCode];
+	return [NSString stringWithFormat:@"The server returned HTTP status %ld.", (long)errorCode];
 }
 
 @end
