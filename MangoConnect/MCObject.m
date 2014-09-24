@@ -15,6 +15,7 @@
 	NSMutableDictionary *_properties;
 	NSMutableDictionary *_relationships;
 	MCModel *_model;
+	NSString * _objectID;
 }
 
 @end
@@ -70,6 +71,7 @@ id dynamicGetter(id self, SEL _cmd) {
 	if ((self = [self init])) {
 		_model = [xmlModel retain];
 		_entity = [[TBXML elementName:xmlElement] retain];
+		_objectID = [[TBXML valueOfAttributeNamed:@"id" forElement:xmlElement] retain];
 		
 		if (xmlElement) {
 			TBXMLElement *attributeElement = xmlElement->firstChild;
@@ -189,6 +191,10 @@ id dynamicGetter(id self, SEL _cmd) {
 	return [dict autorelease];
 }
 
+- (NSString *)description {
+	return _objectID;
+}
+
 //
 // NSObject Methods
 //
@@ -199,6 +205,8 @@ id dynamicGetter(id self, SEL _cmd) {
 	[_relationships release];
 	[_model release];
 	[_entity release];
+	[_objectID release];
+	
 	[super dealloc];
 }
 

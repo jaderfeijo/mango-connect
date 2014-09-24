@@ -81,6 +81,8 @@
  */
 @property (readonly) NSString *entity;
 
+@property (readonly) NSString *objectID;
+
 /**-----------------------------------------------------------------------------------------
  * @name Initializing and parsing data
  * -----------------------------------------------------------------------------------------
