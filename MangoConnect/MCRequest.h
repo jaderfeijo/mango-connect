@@ -10,8 +10,7 @@
 
 @class MCRequestManager;
 
-@interface MCRequest : NSObject
-{
+@interface MCRequest : NSObject {
 	MCRequestManager *requestManager;
 	NSString *address;
 	NSString *requestMethod;

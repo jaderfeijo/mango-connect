@@ -15,15 +15,12 @@
 
 typedef void (^ResponseHandlerBlock)(NSInteger responseCode, NSArray * objects, NSError * error);
 
-typedef enum
-{
+typedef enum {
 	MCAuthenticationMethodBasic,
 	MCAuthenticationMethodDigest
-}
-MCAuthenticationMethod;
+} MCAuthenticationMethod;
 
-@interface MCRequestManager : NSObject
-{
+@interface MCRequestManager : NSObject {
 	MCModel *model;
 	NSString *productionServerAddress;
 	NSString *developmentServerAddress;
@@ -46,6 +43,5 @@ MCAuthenticationMethod;
 -(NSString *)serverAddress;
 -(void)sendWithAddress:(NSString *)address withBlock:(ResponseHandlerBlock)responseHandler;
 -(void)sendWithRequest:(MCRequest *)request withBlock:(ResponseHandlerBlock)responseHandler;
-
 
 @end

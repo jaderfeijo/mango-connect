@@ -10,35 +10,29 @@
 
 #define kErrorDomain @"com.movinpixel.MangoConnect.HttpHerror"
 
-@interface MCRequestManagerError ()
-{
+@interface MCRequestManagerError () {
 	NSInteger errorCode;
 }
 @end
 
 @implementation MCRequestManagerError
 
-+(instancetype)errorWithCode:(NSInteger)code
-{
++ (instancetype)errorWithCode:(NSInteger)code {
 	return [[[MCRequestManagerError alloc] initWithCode:code] autorelease];
 }
 
-- (id)initWithCode:(NSUInteger)code
-{
-	if (self = [super init])
-	{
+- (id)initWithCode:(NSUInteger)code {
+	if (self = [super init]) {
 		errorCode = code;
 	}
 	return self;
 }
 
-- (NSInteger)code
-{
+- (NSInteger)code {
 	return errorCode;
 }
 
-- (NSString *)description
-{
+- (NSString *)description {
 	return [NSString stringWithFormat:@"The server returned HTTP status %ld.", errorCode];
 }
 

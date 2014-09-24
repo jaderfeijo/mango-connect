@@ -53,25 +53,23 @@ static MCRequestManager *_requestManager;
 	}
 }
 
--(void)sendWithAddress:(NSString *)address withBlock:(ResponseHandlerBlock)responseHandler
-{
+-(void)sendWithAddress:(NSString *)address withBlock:(ResponseHandlerBlock)responseHandler {
 	MCRequest * request = [[MCRequest alloc] initWithRequestManager:self];
 	[request setAddress:address];
 	[self sendWithRequest:request withBlock:responseHandler];
 }
 
--(void)sendWithRequest:(MCRequest *)request withBlock:(ResponseHandlerBlock)responseHandler
-{
+-(void)sendWithRequest:(MCRequest *)request withBlock:(ResponseHandlerBlock)responseHandler {
 	//set up authentication which keeps stored somewhere in the system, via the NSURLCredentialStorage system object
-	if (username)
-	{
+	if (username) {
 		NSString * authMethod;
-		if (authenticationMethod == MCAuthenticationMethodBasic)
+		if (authenticationMethod == MCAuthenticationMethodBasic) {
 			authMethod = NSURLAuthenticationMethodHTTPBasic;
-		else if (authenticationMethod == MCAuthenticationMethodDigest)
+		} else if (authenticationMethod == MCAuthenticationMethodDigest) {
 			authMethod = NSURLAuthenticationMethodHTTPDigest;
-		else
+		} else {
 			authMethod = nil;
+		}
 		
 		NSURLCredential * credentials = [NSURLCredential credentialWithUser:username password:password persistence:NSURLCredentialPersistenceForSession];
 		NSURLProtectionSpace * protectionSpace = [[NSURLProtectionSpace alloc] initWithHost:[request.url host] port:[request.url.port integerValue] protocol:@"http" realm:nil authenticationMethod:authMethod];
@@ -86,31 +84,30 @@ static MCRequestManager *_requestManager;
 	
 	NSOperationQueue * httpSessionQueue = [[NSOperationQueue alloc] init];
 	[NSURLConnection sendAsynchronousRequest:httpRequest queue:httpSessionQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-		if ([data length])
-		{
+		if ([data length]) {
 			NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)response;
 			
 			MCObjectCollection * collection = [[MCObjectCollection alloc] initWithXMLString:[NSString stringWithUTF8String:[data bytes]] andModel:[self model]];
 			
-			if (!connectionError && [httpResponse statusCode] && [httpResponse statusCode] != 200)
+			if (!connectionError && [httpResponse statusCode] && [httpResponse statusCode] != 200) {
 				connectionError = [MCRequestManagerError errorWithCode:[httpResponse statusCode]];
+			}
 			
-			if (responseHandler)
+			if (responseHandler) {
 				responseHandler([httpResponse statusCode], [collection objects], connectionError);
+			}
 			
 			[collection release];
-		}
-		else
-		{
-			if (responseHandler)
+		} else {
+			if (responseHandler) {
 				responseHandler(0, nil, connectionError);
+			}
 		}
 	}];
 	[httpSessionQueue release];
 }
 
-- (NSData *)parametersDataInRequest:(MCRequest *)request
-{
+- (NSData *)parametersDataInRequest:(MCRequest *)request {
 	NSMutableString * parametersString = [NSMutableString stringWithString:@""];
 	
 	for (NSString * paramKey in [request parameters]) {

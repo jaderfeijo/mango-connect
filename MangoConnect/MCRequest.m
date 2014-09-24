@@ -20,10 +20,8 @@
 //
 #pragma mark - MCRequest Methods -
 
-- (id)initWithRequestManager:(MCRequestManager *)manager
-{
-	if ((self = [super init]))
-	{
+- (id)initWithRequestManager:(MCRequestManager *)manager {
+	if ((self = [super init])) {
 		requestManager = [manager retain];
 		requestMethod = [@"GET" retain];
 		arguments = [[NSMutableDictionary alloc] init];
@@ -32,43 +30,35 @@
 	return self;
 }
 
-- (void)setValue:(id)value forArgument:(NSString *)argument
-{
+- (void)setValue:(id)value forArgument:(NSString *)argument {
 	[arguments setValue:value forKey:argument];
 }
 
-- (id)valueForArgument:(NSString *)argument
-{
+- (id)valueForArgument:(NSString *)argument {
 	return [arguments valueForKey:argument];
 }
 
-- (void)removeArgument:(NSString *)argument
-{
+- (void)removeArgument:(NSString *)argument {
 	[arguments removeObjectForKey:argument];
 }
 
-- (void)setValue:(id)value forParameter:(NSString *)parameter
-{
+- (void)setValue:(id)value forParameter:(NSString *)parameter {
 	[parameters setValue:value forKey:parameter];
 }
 
-- (id)valueForParameter:(NSString *)parameter
-{
+- (id)valueForParameter:(NSString *)parameter {
 	return [parameters valueForKey:parameter];
 }
 
-- (void)removeParameter:(NSString *)parameter
-{
+- (void)removeParameter:(NSString *)parameter {
 	[parameters removeObjectForKey:parameter];
 }
 
-- (NSDictionary *)parameters
-{
+- (NSDictionary *)parameters {
 	return parameters;
 }
 
-- (NSURL *)url
-{
+- (NSURL *)url {
 	NSMutableString *argumentsString = [[NSMutableString alloc] init];
 	for (NSString *argument in [arguments allKeys]) {
 		id value = [self valueForArgument:argument];
@@ -93,8 +83,7 @@
 //
 #pragma mark - NSObject Methods -
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[address release];
 	[requestMethod release];
 	[arguments release];
