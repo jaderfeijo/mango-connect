@@ -8,13 +8,9 @@
 
 #import "MCModel.h"
 
-@interface MCModel () {
-	NSMutableDictionary *_model;
+@implementation MCModel {
+	NSMutableArray *_entities;
 }
-
-@end
-
-@implementation MCModel
 
 //
 // MCModel Methods
@@ -23,35 +19,32 @@
 
 - (id)init {
 	if ((self = [super init])) {
-		_model = [[NSMutableDictionary alloc] init];
+		_entities = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
-- (void)setClass:(Class)class forEntityNamed:(NSString *)name {
-	[_model setObject:class forKey:name];
+- (void)addEntity:(MCEntity *)entity {
+	[entity setModel:self];
+	[_entities addObject:entity];
 }
 
-- (Class)classForEntityNamed:(NSString *)name {
-	return [_model objectForKey:name];
+- (void)removeEntity:(MCEntity *)entity {
+	[entity setModel:nil];
+	[_entities removeObject:entity];
 }
 
-- (void)removeClassForEntityNamed:(NSString *)name {
-	[_model removeObjectForKey:name];
+- (NSArray *)entities {
+	return (NSArray *)_entities;
 }
 
-- (NSDictionary *)model {
-	return (NSDictionary *)_model;
-}
-
-//
-// NSObject Methods
-//
-#pragma mark - NSObject Methods -
-
-- (void)dealloc {
-	[_model release];
-	[super dealloc];
+- (MCEntity *)entityWithName:(NSString *)entityName {
+	for (MCEntity *entity in [self entities]) {
+		if ([[entity name] isEqualToString:entityName] || [[entity plural] isEqualToString:entityName]) {
+			return entity;
+		}
+	}
+	return nil;
 }
 
 @end

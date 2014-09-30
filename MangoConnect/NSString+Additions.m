@@ -56,7 +56,6 @@
 	}
 	
 	NSString *capitalizedWordsString = [capitalizedWords componentsJoinedByString:separator];
-	[capitalizedWords release];
 	
 	return capitalizedWordsString;
 }
@@ -70,7 +69,6 @@
 	}
 	
 	NSString *capitalizedWordsString = [capitalizedWords componentsJoinedByString:@" "];
-	[capitalizedWords release];
 	
 	return capitalizedWordsString;
 }

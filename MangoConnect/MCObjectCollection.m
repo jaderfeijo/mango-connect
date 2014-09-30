@@ -9,114 +9,107 @@
 #import "MCObjectCollection.h"
 #import "MCModel.h"
 #import "MCObject.h"
+#import "MCObjectContext.h"
 
-@interface MCObjectCollection () {
+@implementation MCObjectCollection {
 	NSMutableArray *_objects;
 }
-
-@end
-
-@implementation MCObjectCollection
 
 //
 // MCObjectCollection Methods
 //
 #pragma mark - MCObjectCollection Methods -
 
--(id)initWithXML:(TBXML *)xml andModel:(MCModel *)m {
+- (id)initWithEntity:(MCEntity *)entity context:(MCObjectContext *)context {
 	if ((self = [super init])) {
-		_model = [m retain];
+		_entity = entity;
+		_context = context;
 		_objects = [[NSMutableArray alloc] init];
-		
-		TBXMLElement *rootElement = [xml rootXMLElement];
-		if (rootElement) {
-			TBXMLElement *objectElement = rootElement->firstChild;
-			while (objectElement) {
-				Class ObjectClass = [_model classForEntityNamed:[TBXML elementName:objectElement]];
-				id object = [[ObjectClass alloc] initWithXML:objectElement model:_model];
-				[_objects addObject:object];
-				[object release];
-				objectElement = objectElement->nextSibling;
-			}
-		}
 	}
 	return self;
 }
 
--(id)initWithXMLString:(NSString *)xmlString andModel:(MCModel *)m {
-	TBXML *xml = [TBXML newTBXMLWithXMLString:xmlString error:nil];
-	if ((self = [self initWithXML:xml andModel:m])) {
+- (id)initWithContext:(MCObjectContext *)context {
+	if ((self = [self initWithEntity:nil context:context])) {
 		//
 	}
-	[xml release];
 	return self;
 }
 
--(id)initWithContentsOfFile:(NSString *)fileName andModel:(MCModel *)m {
-	if ((self = [super init])) {
-		_model = [m retain];
-		
-		if ([[NSFileManager defaultManager] fileExistsAtPath:fileName]) {
-			NSArray *dicts = [[NSArray alloc] initWithContentsOfFile:fileName];
-			
-			_objects = [[NSMutableArray alloc] initWithCapacity:[dicts count]];
-			
-			for (NSDictionary *dict in dicts) {
-				Class ObjectClass = [_model classForEntityNamed:[dict objectForKey:@"entity"]];
-				id object = [[ObjectClass alloc] initWithDictionary:dict model:_model];
-				if (object) {
-					[_objects addObject:object];
-					[object release];
-				}
-			}
-			
-			[dicts release];
-		} else {
-			_objects = [[NSMutableArray alloc] init];
-		}
+- (void)mergeWithCollection:(MCObjectCollection *)collection {
+	for (MCObject *object in [collection objects]) {
+		[self addObject:object];
 	}
-	return self;
 }
 
--(void)mergeWithCollection:(MCObjectCollection *)collection {
-	[_objects addObjectsFromArray:[collection objects]];
-}
-
--(void)addObject:(MCObject *)object {
+- (void)addObject:(MCObject *)object {
+	if (![[object entity] isEqual:[self entity]]) {
+		@throw [NSException exceptionWithName:MCEntityMismatchException reason:MCEntityMismatchExceptionDescription userInfo:nil];
+	}
+	
+	if ([object isNew]) {
+		@throw [NSException exceptionWithName:MCObjectIsNewException reason:MCObjectIsNewExceptionDescription userInfo:nil];
+	}
+	
 	[_objects addObject:object];
 }
 
--(void)removeObject:(MCObject *)object {
+- (void)removeObject:(MCObject *)object {
 	[_objects removeObject:object];
 }
 
--(NSArray *)objects {
+- (MCObject *)objectWithID:(NSString *)objectID {
+	if (objectID) {
+		for (MCObject *object in [self objects]) {
+			if ([[object objectID] isEqualToString:objectID]) {
+				return object;
+			}
+		}
+	}
+	return nil;
+}
+
+- (NSArray *)objects {
 	return (NSArray *)_objects;
 }
 
--(NSArray *)toArray {
-	NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:[_objects count]];
-	
-	for (MCObject *object in _objects) {
-		[array addObject:[object toDictionary]];
+- (NSData *)toXMLData {
+	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
+	[writer instructXML];
+	[self writeXMLToWriter:writer];
+	return [writer XMLData];
+}
+
+- (void)writeXMLToWriter:(TCMXMLWriter *)writer {
+	[writer tag:[[self entity] plural] contentBlock:^{
+		for (MCObject *object in [self objects]) {
+			[object writeXMLToWriter:writer];
+		}
+	}];
+}
+
+- (void)updateWithDataFromXML:(TBXMLElement *)xml {
+	if (xml) {
+		if (!_entity) {
+			NSString *entityName = [TBXML elementName:xml];
+			_entity = [[[self context] model] entityWithName:entityName];
+		}
+		
+		TBXMLElement *objectElement = xml->firstChild;
+		while (objectElement) {
+			NSString *objectID = [TBXML valueOfAttributeNamed:MCObjectXMLIdAttribute forElement:objectElement];
+			id object = [self objectWithID:objectID];
+			if (!object) {
+				Class ObjectClass = [[[[self context] model] entityWithName:[TBXML elementName:objectElement]] entityClass];
+				object = [[ObjectClass alloc] initWithContext:[self context]];
+				[self addObject:object];
+			}
+			
+			[object updateWithDataFromXML:objectElement];
+			
+			objectElement = objectElement->nextSibling;
+		}
 	}
-	
-	return [array autorelease];
-}
-
--(void)saveToFile:(NSString *)fileName {
-	[[self toArray] writeToFile:fileName atomically:YES];
-}
-
-//
-// NSObject Methods
-//
-#pragma mark - NSObject Methods -
-
--(void)dealloc {
-	[_model release];
-	[_objects release];
-	[super dealloc];
 }
 
 @end

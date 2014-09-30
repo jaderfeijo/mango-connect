@@ -7,19 +7,12 @@
 //
 
 #import "MCObject.h"
-#import "MCModel.h"
 #import "NSString+Additions.h"
 #import "NSData+Base64.h"
 
-@interface MCObject () {
+@implementation MCObject {
 	NSMutableDictionary *_properties;
-	NSMutableDictionary *_relationships;
-	MCModel *_model;
 }
-
-@end
-
-@implementation MCObject
 
 //
 // Dynamic Method Resolution
@@ -30,27 +23,67 @@
 	NSString *method = NSStringFromSelector(aSEL);
 	
 	if ([method hasPrefix:@"set"]) {
-		class_addMethod([self class], aSEL, (IMP)dynamicSetter, "v@:@");
+		class_addMethod([self class], aSEL, (IMP)set, "v@:@");
+		return YES;
+	} else if ([method hasPrefix:@"addObjectTo"]) {
+		class_addMethod([self class], aSEL, (IMP)addObjectTo, "v@:@");
+		return YES;
+	} else if ([method hasPrefix:@"addObjectsTo"]) {
+		class_addMethod([self class], aSEL, (IMP)addObjectsTo, "v@:@");
+		return YES;
+	} else if ([method hasPrefix:@"removeObjectFrom"]) {
+		class_addMethod([self class], aSEL, (IMP)removeObjectFrom, "v@:@");
+		return YES;
+	} else if ([method hasPrefix:@"removeObjectsFrom"]) {
+		class_addMethod([self class], aSEL, (IMP)removeObjectsFrom, "v@:@");
+	} else if ([method hasPrefix:@"removeAllObjectsFrom"]) {
+		class_addMethod([self class], aSEL, (IMP)removeAllObjectsFrom, "v@:");
 		return YES;
 	} else {
-		class_addMethod([self class], aSEL, (IMP)dynamicGetter, "@@:");
+		class_addMethod([self class], aSEL, (IMP)get, "@@:");
 		return YES;
 	}
+	
 	return [super resolveInstanceMethod:aSEL];
 }
 
-void dynamicSetter(id self, SEL _cmd, NSObject *newValue) {
-	NSString *propertyName = [[[NSStringFromSelector(_cmd) stringByReplacingCharactersInRange:NSMakeRange(0, 3) withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]] stringByDecapitalizingFirstCharacter];
+void set(id self, SEL _cmd, NSObject *newValue) {
+	NSString *propertyName = PropertyNameFromSelector(_cmd, @"set");
 	[self setValue:newValue forProperty:propertyName];
 }
 
-id dynamicGetter(id self, SEL _cmd) {
-	NSString *attributeName = [NSStringFromSelector(_cmd) stringByDecapitalizingFirstCharacter];
-	id value = [self valueForProperty:attributeName];
-	if (!value) {
-		value = [self objectsForRelationship:attributeName];
-	}
-	return value;
+void addObjectTo(id self, SEL _cmd, MCObject *object) {
+	NSString *propertyName = PropertyNameFromSelector(_cmd, @"addObjectTo");
+	[self addObject:object toProperty:propertyName];
+}
+
+void addObjectsTo(id self, SEL _cmd, NSSet *objects) {
+	NSString *propertyName = PropertyNameFromSelector(_cmd, @"addObjectsTo");
+	[self addObjects:objects toProperty:propertyName];
+}
+
+void removeObjectFrom(id self, SEL _cmd, MCObject *object) {
+	NSString *propertyName = PropertyNameFromSelector(_cmd, @"removeObjectFrom");
+	[self removeObject:object fromProperty:propertyName];
+}
+
+void removeObjectsFrom(id self, SEL _cmd, NSSet *objects) {
+	NSString *propertyName = PropertyNameFromSelector(_cmd, @"removeObjectsFrom");
+	[self removeObjects:objects fromProperty:propertyName];
+}
+
+void removeAllObjectsFrom(id self, SEL _cmd) {
+	NSString *propertyName = PropertyNameFromSelector(_cmd, @"removeAllObjectsFrom");
+	[self removeAllObjectsFromProperty:propertyName];
+}
+
+id get(id self, SEL _cmd) {
+	NSString *propertyName = [NSStringFromSelector(_cmd) stringByDecapitalizingFirstCharacter];
+	return [self valueForProperty:propertyName];
+}
+
+NSString * PropertyNameFromSelector(SEL selector, NSString *prefix) {
+	return [[[NSStringFromSelector(selector) stringByReplacingCharactersInRange:NSMakeRange(0, [prefix length]) withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]] stringByDecapitalizingFirstCharacter];
 }
 
 //
@@ -60,146 +93,238 @@ id dynamicGetter(id self, SEL _cmd) {
 
 - (id)init {
 	if ((self = [super init])) {
-		_properties = [[NSMutableDictionary alloc] init];
-		_relationships = [[NSMutableDictionary alloc] init];
+		_properties = nil;
 	}
 	return self;
 }
 
-- (id)initWithXML:(TBXMLElement *)xmlElement model:(MCModel *)xmlModel {
+- (id)initWithEntity:(MCEntity *)entity objectID:(NSString *)objectID context:(MCObjectContext *)context {
 	if ((self = [self init])) {
-		_model = [xmlModel retain];
-		_entity = [[TBXML elementName:xmlElement] retain];
-		
-		if (xmlElement) {
-			TBXMLElement *attributeElement = xmlElement->firstChild;
-			while (attributeElement) {
-				NSString *attributeName = [TBXML elementName:attributeElement];
-				if (attributeElement->firstChild) {
-					TBXMLElement *objectElement = attributeElement->firstChild;
-					while (objectElement) {
-						Class ObjectClass = [_model classForEntityNamed:[TBXML elementName:objectElement]];
-						id object = [[ObjectClass alloc] initWithXML:objectElement model:_model];
-						[self addObject:object toRelationship:[TBXML elementName:attributeElement]];
-						[object release];
-					}
-				} else {
-					if ([[TBXML valueOfAttributeNamed:@"type" forElement:attributeElement] isEqualToString:@"String"]) {
-						[self setValue:[TBXML textForElement:attributeElement] forProperty:attributeName];
-					} else if ([[TBXML valueOfAttributeNamed:@"type" forElement:attributeElement] isEqualToString:@"Integer"]) {
-						[self setValue:[NSNumber numberWithInteger:[[TBXML textForElement:attributeElement] integerValue]] forProperty:attributeName];
-					} else if ([[TBXML valueOfAttributeNamed:@"type" forElement:attributeElement] isEqualToString:@"Float"]) {
-						[self setValue:[NSNumber numberWithFloat:[[TBXML textForElement:attributeElement] floatValue]] forProperty:attributeName];
-					} else if ([[TBXML valueOfAttributeNamed:@"type" forElement:attributeElement] isEqualToString:@"Boolean"]) {
-						[self setValue:[NSNumber numberWithBool:[[TBXML textForElement:attributeElement] boolValue]] forProperty:attributeName];
-					} else if ([[TBXML valueOfAttributeNamed:@"type" forElement:attributeElement] isEqualToString:@"Date"]) {
-						[self setValue:[NSDate dateWithTimeIntervalSince1970:[[TBXML textForElement:attributeElement] doubleValue]] forProperty:attributeName];
-					} else if ([[TBXML valueOfAttributeNamed:@"type" forElement:attributeElement] isEqualToString:@"Binary"]) {
-						[self setValue:[NSData dataFromBase64String:[TBXML textForElement:attributeElement]] forProperty:attributeName];
-					} else { // String (default)
-						[self setValue:[TBXML textForElement:attributeElement] forProperty:attributeName];
-					}
-				}
-				attributeElement = attributeElement->nextSibling;
-			}
-		}
+		_entity = entity;
+		_objectID = objectID;
+		_context = context;
 	}
 	return self;
 }
 
-- (id)initWithDictionary:(NSDictionary *)dict model:(MCModel *)xmlModel {
-	if ((self = [self init])) {
-		// Load the properties dictionary
-		[_properties addEntriesFromDictionary:[dict objectForKey:@"properties"]];
-		
-		// Load the relationships dictionary
-		NSDictionary *persistedRelationships = [dict objectForKey:@"relationships"];
-		
-		// Convert the persistent dictionaries into objects and load them into the relationships dictionary
-		for (NSString *relationshipName in [persistedRelationships allKeys]) {
-			NSDictionary *objectDict = [persistedRelationships objectForKey:relationshipName];
-			Class ObjectClass = [_model classForEntityNamed:[objectDict objectForKey:@"entity"]];
-			id object = [[ObjectClass alloc] initWithDictionary:objectDict model:_model];
-			[_relationships setObject:object forKey:relationshipName];
-			[object release];
-		}
-		
-		// Load the entity name for this object
-		_entity = [[dict objectForKey:@"entity"] retain];
+-(id)initWithObjectID:(NSString *)objectID context:(MCObjectContext *)context {
+	if ((self = [self initWithEntity:[[context model] entityWithName:NSStringFromClass([self class])] objectID:objectID context:context])) {
+		//
 	}
 	return self;
+}
+
+- (id)initWithEntity:(MCEntity *)entity context:(MCObjectContext *)context {
+	if ((self = [self initWithEntity:entity objectID:MCNewObjectID context:context])) {
+		//
+	}
+	return self;
+}
+
+- (id)initWithContext:(MCObjectContext *)context {
+	if ((self = [self initWithEntity:[[context model] entityWithName:NSStringFromClass([self class])] context:context])) {
+		//
+	}
+	return self;
+}
+
+- (BOOL)isNew {
+	return ([self objectID] == MCNewObjectID);
+}
+
+- (BOOL)isFault {
+	return (_properties == nil && ![self isNew]);
+}
+
+- (NSArray *)propertyNames {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
+	return [_properties allKeys];
 }
 
 - (void)setValue:(id)value forProperty:(NSString *)property {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
+	if (!_properties) {
+		_properties = [[NSMutableDictionary alloc] init];
+	}
+	
 	[_properties setValue:value forKey:property];
 }
 
 - (id)valueForProperty:(NSString *)property {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
 	return [_properties valueForKey:property];
 }
 
-- (void)addObject:(MCObject *)object toRelationship:(NSString *)relationship {
-	NSMutableSet *set = [_relationships objectForKey:relationship];
+- (void)addObject:(MCObject *)object toProperty:(NSString *)property {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
+	if (!_properties) {
+		_properties = [[NSMutableDictionary alloc] init];
+	}
+	
+	NSMutableSet *set = [_properties objectForKey:property];
 	if (!set) {
 		set = [[NSMutableSet alloc] init];
-		[_relationships setObject:set forKey:relationship];
-		[set autorelease];
+		[_properties setObject:set forKey:property];
 	}
 	[set addObject:object];
 }
 
-- (void)removeObject:(MCObject *)object fromRelationship:(NSString *)relationship {
-	NSMutableSet *set = [_relationships objectForKey:relationship];
+- (void)addObjects:(NSSet *)objects toProperty:(NSString *)property {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
+	if (!_properties) {
+		_properties = [[NSMutableDictionary alloc] init];
+	}
+	
+	for (MCObject *object in objects) {
+		[self addObject:object toProperty:property];
+	}
+}
+
+- (void)removeObject:(MCObject *)object fromProperty:(NSString *)property {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
+	NSMutableSet *set = [_properties objectForKey:property];
 	[set removeObject:object];
 }
 
-- (void)removeAllObjectsFromRelationship:(NSString *)relationship {
-	NSMutableSet *set = [_relationships objectForKey:relationship];
+- (void)removeObjects:(NSSet *)objects fromProperty:(NSString *)property {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
+	for (MCObject *object in objects) {
+		[self removeObject:object fromProperty:property];
+	}
+}
+
+- (void)removeAllObjectsFromProperty:(NSString *)property {
+	if ([self isFault]) {
+		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];
+	}
+	
+	NSMutableSet *set = [_properties objectForKey:property];
 	[set removeAllObjects];
 }
 
-- (NSSet *)objectsForRelationship:(NSString *)relationship {
-	return (NSSet *)[_relationships objectForKey:relationship];
+- (MCRequest *)fetchRequest {
+	return [[MCFetchObjectRequest alloc] initWithObject:self];
 }
 
-- (NSDictionary *)toDictionary {
-	NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:2];
-	
-	// Add properties to dictionary
-	[dict setObject:_properties forKey:@"properties"];
-	
-	// Convert all objects inside relationships into dictionaries we can persist
-	NSMutableDictionary *convertedRelationships = [[NSMutableDictionary alloc] initWithCapacity:[_relationships count]];
-	for (NSString *relationshipName in _relationships) {
-		NSMutableSet *relationshipObjects = [[NSMutableSet alloc] init];
-		for (MCObject *object in [self objectsForRelationship:relationshipName]) {
-			[relationshipObjects addObject:[object toDictionary]];
-		}
-		[convertedRelationships setObject:(NSSet *)relationshipObjects forKey:relationshipName];
-		[relationshipObjects release];
+- (MCRequest *)createRequest {
+	return [[MCCreateObjectRequest alloc] initWithObject:self];
+}
+
+- (MCRequest *)updateRequest {
+	return [[MCUpdateObjectRequest alloc] initWithObject:self];
+}
+
+- (MCRequest *)deleteRequest {
+	return [[MCDeleteObjectRequest alloc] initWithObject:self];
+}
+
+- (NSData *)toXMLData {
+	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
+	[writer instructXML];
+	[self writeXMLToWriter:writer];
+	return [writer XMLData];
+}
+
+- (void)writeXMLToWriter:(TCMXMLWriter *)writer {
+	NSDictionary *attributes = nil;
+	if (![self isNew]) {
+		attributes = @{MCObjectXMLIdAttribute : [self objectID]};
 	}
 	
-	// Add converted relationships to dictionary
-	[dict setObject:convertedRelationships forKey:@"relationships"];
-	[convertedRelationships release];
-	
-	// Add the entity name to dictionary
-	[dict setObject:[self entity] forKey:@"entity"];
-
-	return [dict autorelease];
+	if (![self isFault]) {
+		[writer tag:[[self entity] name] attributes:attributes contentBlock:^{
+			for (NSString *property in [self propertyNames]) {
+				id value = [self valueForProperty:property];
+				if ([value isKindOfClass:[NSSet class]]) {
+					[writer tag:property contentBlock:^{
+						for (MCObject *object in value) {
+							[object writeXMLToWriter:writer];
+						}
+					}];
+				} else if ([value isKindOfClass:[MCObject class]]) {
+					[writer tag:property contentBlock:^{
+						[value writeXMLToWriter:writer];
+					}];
+				} else if ([value isKindOfClass:[NSNumber class]]) {
+					[writer tag:property contentText:[value stringValue]];
+				} else if ([value isKindOfClass:[NSDate class]]) {
+					[writer tag:property contentText:[[NSNumber numberWithDouble:[value timeIntervalSince1970]] stringValue]];
+				} else if ([value isKindOfClass:[NSData class]]) {
+					[writer tag:property contentText:[value base64EncodedString]];
+				} else { // NSString
+					[writer tag:property contentText:value];
+				}
+			}
+		}];
+	} else {
+		[writer tag:[[self entity] name] attributes:attributes];
+	}
 }
 
-//
-// NSObject Methods
-//
-#pragma mark - NSObject Methods -
-
-- (void)dealloc {
-	[_properties release];
-	[_relationships release];
-	[_model release];
-	[_entity release];
-	[super dealloc];
+- (void)updateWithDataFromXML:(TBXMLElement *)xml {
+	TBXMLElement *attributeElement = xml->firstChild;
+	while (attributeElement) {
+		if (!_properties) {
+			_properties = [[NSMutableDictionary alloc] init];
+		}
+		
+		if ([self isNew]) {
+			_objectID = [TBXML valueOfAttributeNamed:MCObjectXMLIdAttribute forElement:xml];
+		}
+		
+		NSString *attributeName = [TBXML elementName:attributeElement];
+		if (attributeElement->firstChild) {
+			TBXMLElement *objectElement = attributeElement->firstChild;
+			NSString *entityName = [TBXML elementName:objectElement];
+			while (objectElement) {
+				Class ObjectClass = [[[[self entity] model] entityWithName:entityName] class];
+				id object = [[ObjectClass alloc] initWithContext:[self context]];
+				[object updateWithDataFromXML:objectElement];
+				[self addObject:object toProperty:attributeName];
+				objectElement = objectElement->nextSibling;
+			}
+		} else {
+			NSString *attributeType = [TBXML valueOfAttributeNamed:MCObjectXMLTypeAttribute forElement:attributeElement];
+			NSString *attributeValue = [TBXML textForElement:attributeElement];
+			if ([attributeName isEqualToString:MCObjectXMLStringType]) {
+				[self setValue:attributeValue forProperty:attributeName];
+			} else if ([attributeName isEqualToString:MCObjectXMLIntegerType]) {
+				[self setValue:[NSNumber numberWithInteger:[attributeValue integerValue]] forProperty:attributeName];
+			} else if ([attributeType isEqualToString:MCObjectXMLFloatType]) {
+				[self setValue:[NSNumber numberWithFloat:[attributeValue floatValue]] forProperty:attributeName];
+			} else if ([attributeType isEqualToString:MCObjectXMLBooleanType]) {
+				[self setValue:[NSNumber numberWithBool:[attributeValue boolValue]] forProperty:attributeName];
+			} else if ([attributeType isEqualToString:MCObjectXMLDateType]) {
+				[self setValue:[NSDate dateWithTimeIntervalSince1970:[attributeValue doubleValue]] forProperty:attributeName];
+			} else if ([attributeType isEqualToString:MCObjectXMLBinaryType]) {
+				[self setValue:[NSData dataFromBase64String:attributeValue] forProperty:attributeName];
+			} else { // String (default)
+				[self setValue:attributeValue forProperty:attributeName];
+			}
+		}
+		attributeElement = attributeElement->nextSibling;
+	}
 }
 
 @end

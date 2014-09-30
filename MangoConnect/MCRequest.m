@@ -7,89 +7,111 @@
 //
 
 #import "MCRequest.h"
-#import "MCRequestManager.h"
+#import "NSString+Hashing.h"
 
-@implementation MCRequest
+@implementation MCRequest {
+	NSMutableDictionary *_parameters;
+}
 
-@synthesize requestManager;
-@synthesize address;
-@synthesize requestMethod;
+//
+// Static Methods
+//
+#pragma mark - Static Methods -
+
++ (instancetype)requestWithAddress:(NSString *)address method:(NSString *)method authenticate:(BOOL)authenticate context:(MCObjectContext *)context {
+	return [[MCRequest alloc] initWithAddress:address method:method authenticate:authenticate context:context];
+}
+
++ (instancetype)requestWithAddress:(NSString *)address method:(NSString *)method context:(MCObjectContext *)context {
+	return [[MCRequest alloc] initWithAddress:address method:method context:context];
+}
 
 //
 // MCRequest Methods
 //
 #pragma mark - MCRequest Methods -
 
-- (id)initWithRequestManager:(MCRequestManager *)manager {
+- (id)initWithAddress:(NSString *)address method:(NSString *)method authenticate:(BOOL)authenticate context:(MCObjectContext *)context {
 	if ((self = [super init])) {
-		requestManager = [manager retain];
-		requestMethod = [@"GET" retain];
-		arguments = [[NSMutableDictionary alloc] init];
-		parameters = [[NSMutableDictionary alloc] init];
+		_context = context;
+		_address = address;
+		_method = method;
+		_authenticate = authenticate;
+		_contentType = nil;
+		_parameters = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
 
-- (void)setValue:(id)value forArgument:(NSString *)argument {
-	[arguments setValue:value forKey:argument];
-}
-
-- (id)valueForArgument:(NSString *)argument {
-	return [arguments valueForKey:argument];
-}
-
-- (void)removeArgument:(NSString *)argument {
-	[arguments removeObjectForKey:argument];
+- (id)initWithAddress:(NSString *)address method:(NSString *)method context:(MCObjectContext *)context {
+	if ((self = [self initWithAddress:address method:method authenticate:[[context server] shouldAuthenticateRequest:self] context:context])) {
+		//
+	}
+	return self;
 }
 
 - (void)setValue:(id)value forParameter:(NSString *)parameter {
-	[parameters setValue:value forKey:parameter];
+	[_parameters setValue:value forKey:parameter];
 }
 
 - (id)valueForParameter:(NSString *)parameter {
-	return [parameters valueForKey:parameter];
+	return [_parameters valueForKey:parameter];
 }
 
 - (void)removeParameter:(NSString *)parameter {
-	[parameters removeObjectForKey:parameter];
+	[_parameters removeObjectForKey:parameter];
 }
 
 - (NSDictionary *)parameters {
-	return parameters;
+	return _parameters;
+}
+
+- (NSData *)body {
+	NSMutableString *parametersString = [[NSMutableString alloc] init];
+	
+	for (NSString *paramKey in [self parameters]) {
+		[parametersString appendFormat:@"%@=%@&", [paramKey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [self.parameters[paramKey] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	}
+	
+	return [parametersString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSURL *)url {
-	NSMutableString *argumentsString = [[NSMutableString alloc] init];
-	for (NSString *argument in [arguments allKeys]) {
-		id value = [self valueForArgument:argument];
-		
-		if ([argumentsString isEqualToString:@""]) {
-			[argumentsString appendString:@"?"];
-		} else {
-			[argumentsString appendString:@"&"];
-		}
-		
-		[argumentsString appendFormat:@"%@=%@", argument, [[value description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	}
-	
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [self address], argumentsString] relativeToURL:[NSURL URLWithString:[[self requestManager] serverAddress]]];
-	[argumentsString release];
-	
-	return url;
+	return [NSURL URLWithString:[self address] relativeToURL:[[[self context] server] url]];
 }
 
-//
-// NSObject Methods
-//
-#pragma mark - NSObject Methods -
-
-- (void)dealloc {
-	[address release];
-	[requestMethod release];
-	[arguments release];
-	[parameters release];
+-(void)sendWithBlock:(MCRequestCompletionBlock)completionBlock {
+	NSString *randomData = [NSString randomString];
+	NSString *authentication = [[[[[self context] server] authenticationToken] stringByAppendingString:randomData] sha256];
 	
-	[super dealloc];
+	NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[self url]];
+	[httpRequest setHTTPMethod:[self method]];
+	[httpRequest setHTTPBody:[self body]];
+	[httpRequest addValue:MCVersion forHTTPHeaderField:MCProtocolVersionHeader];
+	[httpRequest addValue:authentication forHTTPHeaderField:MCRequestAuthenticationTokenHeader];
+	[httpRequest addValue:randomData forHTTPHeaderField:MCRequestRandomDataHeader];
+	if ([self contentType]) [httpRequest addValue:[self contentType] forHTTPHeaderField:MCRequestContentTypeHeader];
+	
+	[NSURLConnection sendAsynchronousRequest:httpRequest queue:[[self context] operationQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+		if (!connectionError) {
+			if ([httpResponse statusCode] == MC_BAD_REQUEST_HTTP_REPONSE) {
+				if (completionBlock) completionBlock(self, nil, [NSError errorWithDomain:MCMangoConnectErrorDomain code:MCMangoConnectBadRequestError userInfo:nil]);
+			} else if ([httpResponse statusCode] == MC_UNAUTHORIZED_HTTP_RESPONSE) {
+				if (completionBlock) completionBlock(self, nil, [NSError errorWithDomain:MCMangoConnectErrorDomain code:MCMangoConnectUnauthorizedError userInfo:nil]);
+			} else if ([httpResponse statusCode] == MC_NOT_FOUND_HTTP_RESPONSE) {
+				if (completionBlock) completionBlock(self, nil, [NSError errorWithDomain:MCMangoConnectErrorDomain code:MCMangoConnectNotFoundError userInfo:nil]);
+			} else if ([httpResponse statusCode] == MC_INTERNAL_SERVER_ERROR_RESPONSE) {
+				if (completionBlock) completionBlock(self, nil, [NSError errorWithDomain:MCMangoConnectErrorDomain code:MCMangoConnectInternalServerError userInfo:nil]);
+			} else {
+				NSError *responseError = nil;
+				id response = [[self delegate] parseServerResponse:httpResponse data:data error:&responseError];
+				if (completionBlock) completionBlock(self, response, responseError);
+			}
+		} else {
+			if (completionBlock) completionBlock(self, nil, [NSError errorWithDomain:MCMangoConnectErrorDomain code:MCMangoConnectConnectionError userInfo:@{MCMangoConnectErrorKey : connectionError}]);
+		}
+	}];
 }
 
 @end

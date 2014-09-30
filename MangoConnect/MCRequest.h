@@ -7,32 +7,33 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MCRequestDelegate.h"
 
-@class MCRequestManager;
+typedef void (^MCRequestCompletionBlock)(MCRequest *request, id response, NSError *error);
 
-@interface MCRequest : NSObject {
-	MCRequestManager *requestManager;
-	NSString *address;
-	NSString *requestMethod;
-	NSMutableDictionary *arguments;
-	NSMutableDictionary *parameters;
-}
+@interface MCRequest : NSObject
 
-@property(nonatomic, retain) MCRequestManager * requestManager;
 @property (nonatomic, retain) NSString *address;
-@property (nonatomic, retain) NSString *requestMethod;
+@property (nonatomic, retain) MCObjectContext *context;
+@property (nonatomic, retain) NSString *method;
+@property (nonatomic, assign) BOOL authenticate;
+@property (nonatomic, retain) NSString *contentType;
+@property (nonatomic, assign) id<MCRequestDelegate> delegate;
 
--(id)initWithRequestManager:(MCRequestManager *)requestManager;
++(instancetype)requestWithAddress:(NSString *)address method:(NSString *)method authenticate:(BOOL)authenticate context:(MCObjectContext *)context;
++(instancetype)requestWithAddress:(NSString *)address method:(NSString *)method context:(MCObjectContext *)context;
 
--(void)setValue:(id)value forArgument:(NSString *)argument;
--(id)valueForArgument:(NSString *)argument;
--(void)removeArgument:(NSString *)argument;
+-(id)initWithAddress:(NSString *)address method:(NSString *)method authenticate:(BOOL)authenticate context:(MCObjectContext *)context;
+-(id)initWithAddress:(NSString *)address method:(NSString *)method context:(MCObjectContext *)context;
 
+-(NSDictionary *)parameters;
 -(void)setValue:(id)value forParameter:(NSString *)parameter;
 -(id)valueForParameter:(NSString *)parameter;
 -(void)removeParameter:(NSString *)parameter;
--(NSDictionary *)parameters;
 
+-(NSData *)body;
 -(NSURL *)url;
+
+-(void)sendWithBlock:(MCRequestCompletionBlock)completionBlock;
 
 @end
