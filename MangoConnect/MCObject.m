@@ -332,7 +332,11 @@ NSString * PropertyNameFromSelector(SEL selector, NSString *prefix) {
 }
 
 - (void)fetchObjectsForProperty:(SEL)property withBlock:(MCObjectCompletionBlock)block {
-	NSSet *allObjects = [self valueForProperty:NSStringFromSelector(property)];
+	[self fetchObjectsForPropertyWithName:NSStringFromSelector(property) withBlock:block];
+}
+
+- (void)fetchObjectsForPropertyWithName:(NSString *)propertyName withBlock:(MCObjectCompletionBlock)block {
+	NSSet *allObjects = [self valueForProperty:propertyName];
 	if ([allObjects isKindOfClass:[NSSet class]]) {
 		NSMutableSet *faultObjects = [[NSMutableSet alloc] initWithCapacity:[allObjects count]];
 		MCEntity *entity = nil;
