@@ -1,25 +1,22 @@
 //
-//  MCUpdateObjectRequest.m
+//  MCFetchObjectsRequest.m
 //  MangoConnect
 //
-//  Created by Jader Feijo on 30/09/2014.
+//  Created by Jader Feijo on 02/10/2014.
 //  Copyright (c) 2014 Movinpixel. All rights reserved.
 //
 
-#import "MCUpdateObjectRequest.h"
+#import "MCFetchObjectsRequest.h"
 
-@implementation MCUpdateObjectRequest
+@implementation MCFetchObjectsRequest
 
-- (id)initWithObject:(MCObject *)object {
-	if ((self = [super initWithAddress:[NSString stringWithFormat:@"%@/%@", [[[object entity] plural] lowercaseString], [object objectID]] method:MC_PUT_HTTP_METHOD context:[object context]])) {
-		_object = object;
-		[self setContentType:@"application/xml"];
+- (id)initWithObjects:(NSSet *)objects entity:(MCEntity *)entity context:(MCObjectContext *)context {
+	if ((self = [super initWithAddress:[NSString stringWithFormat:@"%@/%@", [[entity plural] lowercaseString], [[objects allObjects] componentsJoinedByString:@","]] method:MC_GET_HTTP_METHOD context:context])) {
+		_objects = objects;
+		_entity = entity;
+		[self setDelegate:self];
 	}
 	return self;
-}
-
-- (NSData *)body {
-	return [[self object] toXMLData];
 }
 
 //
@@ -33,8 +30,8 @@
 			NSError *parsingError = nil;
 			TBXML *xml = [[TBXML alloc] initWithXMLData:data error:&parsingError];
 			if (!parsingError) {
-				MCObjectCollection *objects = [[MCObjectCollection alloc] initWithEntity:[[self object] entity] context:[self context]];
-				[objects addObject:[self object]];
+				MCObjectCollection *objects = [[MCObjectCollection alloc] initWithEntity:[self entity] context:[self context]];
+				[objects addObjects:[self objects]];
 				
 				TBXMLElement *rootElement = [xml rootXMLElement];
 				if (rootElement) {

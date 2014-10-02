@@ -23,7 +23,11 @@
 }
 
 - (BOOL)shouldAuthenticateRequest:(MCRequest *)request {
-	return YES;
+	if ([self authenticationToken]) {
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 @end

@@ -136,6 +136,10 @@ NSString * PropertyNameFromSelector(SEL selector, NSString *prefix) {
 	return (_properties == nil && ![self isNew]);
 }
 
+- (void)fault {
+	_properties = nil;
+}
+
 - (NSArray *)propertyNames {
 	if ([self isFault]) {
 		@throw [NSException exceptionWithName:MCObjectIsFaultException reason:MCObjectIsFaultExceptionDescription userInfo:nil];

@@ -24,6 +24,9 @@ typedef void(^MCObjectCollectionBlock)(MCObjectCollection *objects, NSError *err
 -(id)initWithServer:(MCServer *)server model:(MCModel *)model;
 -(NSOperationQueue *)operationQueue;
 
+-(void)fetchObjects:(NSSet *)objects ofEntity:(MCEntity *)entity withBlock:(MCObjectCollectionBlock)block;
+-(void)fetchObjectsFromCollection:(MCObjectCollection *)objects withBlock:(MCObjectCollectionBlock)block;
+
 -(void)fetchObject:(MCObject *)object withBlock:(MCObjectBlock)block;
 -(void)createObject:(MCObject *)object withBlock:(MCObjectBlock)block;
 -(void)updateObject:(MCObject *)object withBlock:(MCObjectBlock)block;

@@ -81,15 +81,16 @@
 }
 
 -(void)sendWithBlock:(MCRequestCompletionBlock)completionBlock {
-	NSString *randomData = [NSString randomString];
-	NSString *authentication = [[[[[self context] server] authenticationToken] stringByAppendingString:randomData] sha256];
-	
 	NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[self url]];
 	[httpRequest setHTTPMethod:[self method]];
 	[httpRequest setHTTPBody:[self body]];
-	[httpRequest addValue:MCVersion forHTTPHeaderField:MCProtocolVersionHeader];
-	[httpRequest addValue:authentication forHTTPHeaderField:MCRequestAuthenticationTokenHeader];
-	[httpRequest addValue:randomData forHTTPHeaderField:MCRequestRandomDataHeader];
+	if ([[[self context] server] shouldAuthenticateRequest:self]) {
+		NSString *randomData = [NSString randomString];
+		NSString *authentication = [[[[[self context] server] authenticationToken] stringByAppendingString:randomData] sha256];
+		[httpRequest addValue:MCVersion forHTTPHeaderField:MCProtocolVersionHeader];
+		[httpRequest addValue:authentication forHTTPHeaderField:MCRequestAuthenticationTokenHeader];
+		[httpRequest addValue:randomData forHTTPHeaderField:MCRequestRandomDataHeader];
+	}
 	if ([self contentType]) [httpRequest addValue:[self contentType] forHTTPHeaderField:MCRequestContentTypeHeader];
 	
 	[NSURLConnection sendAsynchronousRequest:httpRequest queue:[[self context] operationQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {

@@ -17,18 +17,24 @@
 @property (readonly) MCEntity *entity;
 @property (readonly) MCObjectContext *context;
 
++(instancetype)collectionWithObjects:(NSSet *)objects ofEntity:(MCEntity *)entity context:(MCObjectContext *)context;
+
 -(id)initWithEntity:(MCEntity *)entity context:(MCObjectContext *)context;
--(id)initWithContext:(MCObjectContext *)context;
 
 -(void)mergeWithCollection:(MCObjectCollection *)collection;
 -(void)addObject:(MCObject *)object;
 -(void)removeObject:(MCObject *)object;
 
+-(void)addObjects:(NSSet *)objects;
+-(void)removeObjects:(NSSet *)objects;
+
 -(MCObject *)objectWithID:(NSString *)objectID;
--(NSArray *)objects;
+-(NSSet *)objects;
 
 -(NSData *)toXMLData;
 -(void)writeXMLToWriter:(TCMXMLWriter *)writer;
 -(void)updateWithDataFromXML:(TBXMLElement *)xml;
+
+-(MCRequest *)fetchObjectsRequest;
 
 @end

@@ -60,6 +60,10 @@
 		954206C319DB23CB00F3AA63 /* TCMXMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 954206BF19DB23CB00F3AA63 /* TCMXMLWriter.m */; };
 		954206CC19DB441F00F3AA63 /* MCRequestDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 954206CB19DB441F00F3AA63 /* MCRequestDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		954206CD19DB441F00F3AA63 /* MCRequestDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 954206CB19DB441F00F3AA63 /* MCRequestDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		957348EC19DD70DC0008D793 /* MCFetchObjectsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 957348EA19DD70DC0008D793 /* MCFetchObjectsRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		957348ED19DD70DC0008D793 /* MCFetchObjectsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 957348EA19DD70DC0008D793 /* MCFetchObjectsRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		957348EE19DD70DC0008D793 /* MCFetchObjectsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 957348EB19DD70DC0008D793 /* MCFetchObjectsRequest.m */; };
+		957348EF19DD70DC0008D793 /* MCFetchObjectsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 957348EB19DD70DC0008D793 /* MCFetchObjectsRequest.m */; };
 		95AA277C19D39D3E00841EA0 /* MCFetchObjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 95AA277919D39D3E00841EA0 /* MCFetchObjectRequest.m */; };
 		95AA277D19D39D3E00841EA0 /* MCFetchObjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 95AA277919D39D3E00841EA0 /* MCFetchObjectRequest.m */; };
 		9A3464711703CE5D004FA0F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A32ECC5170380280089F567 /* Foundation.framework */; };
@@ -117,6 +121,8 @@
 		954206BE19DB23CB00F3AA63 /* TCMXMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMXMLWriter.h; sourceTree = "<group>"; };
 		954206BF19DB23CB00F3AA63 /* TCMXMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMXMLWriter.m; sourceTree = "<group>"; };
 		954206CB19DB441F00F3AA63 /* MCRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRequestDelegate.h; sourceTree = "<group>"; };
+		957348EA19DD70DC0008D793 /* MCFetchObjectsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCFetchObjectsRequest.h; sourceTree = "<group>"; };
+		957348EB19DD70DC0008D793 /* MCFetchObjectsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCFetchObjectsRequest.m; sourceTree = "<group>"; };
 		95AA277819D39D3E00841EA0 /* MCFetchObjectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCFetchObjectRequest.h; sourceTree = "<group>"; };
 		95AA277919D39D3E00841EA0 /* MCFetchObjectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCFetchObjectRequest.m; sourceTree = "<group>"; };
 		9A32ECC5170380280089F567 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -206,6 +212,8 @@
 				954206CB19DB441F00F3AA63 /* MCRequestDelegate.h */,
 				95AA277819D39D3E00841EA0 /* MCFetchObjectRequest.h */,
 				95AA277919D39D3E00841EA0 /* MCFetchObjectRequest.m */,
+				957348EA19DD70DC0008D793 /* MCFetchObjectsRequest.h */,
+				957348EB19DD70DC0008D793 /* MCFetchObjectsRequest.m */,
 				952233B219D4A5690008DC04 /* MCCreateObjectRequest.h */,
 				952233B319D4A5690008DC04 /* MCCreateObjectRequest.m */,
 				9542069E19DACBDE00F3AA63 /* MCUpdateObjectRequest.h */,
@@ -335,6 +343,7 @@
 				70A9E13318914096000E62A2 /* NSData+Base64.h in Headers */,
 				954206C119DB23CB00F3AA63 /* TCMXMLWriter.h in Headers */,
 				70A9E12F1891408F000E62A2 /* TBXML+Compression.h in Headers */,
+				957348ED19DD70DC0008D793 /* MCFetchObjectsRequest.h in Headers */,
 				952233C019D777610008DC04 /* MCServer.h in Headers */,
 				70A9E13B189140B2000E62A2 /* MCObjectCollection.h in Headers */,
 				70A9E1311891408F000E62A2 /* TBXML+HTTP.h in Headers */,
@@ -362,6 +371,7 @@
 				9A3464911703CEB9004FA0F2 /* MCObjectCollection.h in Headers */,
 				954206C019DB23CB00F3AA63 /* TCMXMLWriter.h in Headers */,
 				9A3464921703CEB9004FA0F2 /* MCObjectContext.h in Headers */,
+				957348EC19DD70DC0008D793 /* MCFetchObjectsRequest.h in Headers */,
 				952233BF19D777610008DC04 /* MCServer.h in Headers */,
 				9A3464961703CEB9004FA0F2 /* MangoConnect.h in Headers */,
 				9A3464A21703CF47004FA0F2 /* TBXML.h in Headers */,
@@ -448,6 +458,7 @@
 			files = (
 				70A9E12E1891408F000E62A2 /* TBXML.m in Sources */,
 				70A9E1321891408F000E62A2 /* TBXML+HTTP.m in Sources */,
+				957348EF19DD70DC0008D793 /* MCFetchObjectsRequest.m in Sources */,
 				70A9E1301891408F000E62A2 /* TBXML+Compression.m in Sources */,
 				954206A319DACBDE00F3AA63 /* MCUpdateObjectRequest.m in Sources */,
 				954206C319DB23CB00F3AA63 /* TCMXMLWriter.m in Sources */,
@@ -473,6 +484,7 @@
 			files = (
 				9A3464831703CE9A004FA0F2 /* TBXML.m in Sources */,
 				9A3464851703CE9A004FA0F2 /* TBXML+HTTP.m in Sources */,
+				957348EE19DD70DC0008D793 /* MCFetchObjectsRequest.m in Sources */,
 				9A3464841703CE9A004FA0F2 /* TBXML+Compression.m in Sources */,
 				954206A219DACBDE00F3AA63 /* MCUpdateObjectRequest.m in Sources */,
 				954206C219DB23CB00F3AA63 /* TCMXMLWriter.m in Sources */,

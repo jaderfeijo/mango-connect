@@ -12,7 +12,20 @@
 #import "MCObjectContext.h"
 
 @implementation MCObjectCollection {
-	NSMutableArray *_objects;
+	NSMutableSet *_objects;
+}
+
+//
+// MCObjectCollection Static Methods
+//
+#pragma mark - MCObjectCollection Static Methods -
+
++ (instancetype)collectionWithObjects:(NSSet *)objects ofEntity:(MCEntity *)entity context:(MCObjectContext *)context {
+	MCObjectCollection *collection = [[MCObjectCollection alloc] initWithEntity:entity context:context];
+	for (MCObject *object in objects) {
+		[collection addObject:object];
+	}
+	return collection;
 }
 
 //
@@ -24,14 +37,7 @@
 	if ((self = [super init])) {
 		_entity = entity;
 		_context = context;
-		_objects = [[NSMutableArray alloc] init];
-	}
-	return self;
-}
-
-- (id)initWithContext:(MCObjectContext *)context {
-	if ((self = [self initWithEntity:nil context:context])) {
-		//
+		_objects = [[NSMutableSet alloc] init];
 	}
 	return self;
 }
@@ -58,6 +64,18 @@
 	[_objects removeObject:object];
 }
 
+- (void)addObjects:(NSSet *)objects {
+	for (MCObject *object in objects) {
+		[self addObject:object];
+	}
+}
+
+- (void)removeObjects:(NSSet *)objects {
+	for (MCObject *object in objects) {
+		[self removeObject:object];
+	}
+}
+
 - (MCObject *)objectWithID:(NSString *)objectID {
 	if (objectID) {
 		for (MCObject *object in [self objects]) {
@@ -69,8 +87,8 @@
 	return nil;
 }
 
-- (NSArray *)objects {
-	return (NSArray *)_objects;
+- (NSSet *)objects {
+	return (NSSet *)_objects;
 }
 
 - (NSData *)toXMLData {
@@ -110,6 +128,10 @@
 			objectElement = objectElement->nextSibling;
 		}
 	}
+}
+
+- (MCRequest *)fetchObjectsRequest {
+	return [[MCFetchObjectsRequest alloc] initWithObjects:[self objects] entity:[self entity] context:[self context]];
 }
 
 @end

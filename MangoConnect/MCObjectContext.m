@@ -32,20 +32,43 @@
 	return _operationQueue;
 }
 
-- (void)fetchObject:(MCObject *)object withBlock:(MCObjectBlock)block {
-	[[object fetchRequest] sendWithBlock:^(MCRequest *request, MCObjectCollection *objects, NSError *error) {
+- (void)fetchObjects:(NSSet *)objects ofEntity:(MCEntity *)entity withBlock:(MCObjectCollectionBlock)block {
+	MCObjectCollection *collection = [MCObjectCollection collectionWithObjects:objects ofEntity:entity context:self];
+	[self fetchObjectsFromCollection:collection withBlock:block];
+}
+
+- (void)fetchObjectsFromCollection:(MCObjectCollection *)objects withBlock:(MCObjectCollectionBlock)block {
+	[[objects fetchObjectsRequest] sendWithBlock:^(MCRequest *request, id response, NSError *error) {
 		if (!error) {
-			if (block) block([[objects objects] lastObject], nil);
+			if (block) block(response, nil);
 		} else {
 			if (block) block(nil, error);
 		}
 	}];
 }
 
+- (void)fetchObject:(MCObject *)object withBlock:(MCObjectBlock)block {
+	if ([object isFault]) {
+		[[object fetchRequest] sendWithBlock:^(MCRequest *request, id response, NSError *error) {
+			if (!error) {
+				if (block) block([[(MCObjectCollection *)response objects] anyObject], nil);
+			} else {
+				if (block) block(nil, error);
+			}
+		}];
+	} else {
+		if (block) block(object, nil);
+	}
+}
+
 - (void)createObject:(MCObject *)object withBlock:(MCObjectBlock)block {
-	[[object createRequest] sendWithBlock:^(MCRequest *request, MCObjectCollection *objects, NSError *error) {
+	if (![object isNew]) {
+		@throw [NSException exceptionWithName:MCObjectAlreadyExistsException reason:MCObjectAlreadyExistsExceptionDescription userInfo:@{MCExceptionObjectUserInfoKey : object}];
+	}
+	
+	[[object createRequest] sendWithBlock:^(MCRequest *request, id response, NSError *error) {
 		if (!error) {
-			if (block) block([[objects objects] lastObject], nil);
+			if (block) block([[(MCObjectCollection *)response objects] anyObject], nil);
 		} else {
 			if (block) block(nil, error);
 		}
@@ -53,9 +76,13 @@
 }
 
 - (void)updateObject:(MCObject *)object withBlock:(MCObjectBlock)block {
-	[[object updateRequest] sendWithBlock:^(MCRequest *request, MCObjectCollection *objects, NSError *error) {
+	if ([object isNew]) {
+		@throw [NSException exceptionWithName:MCObjectIsNewException reason:MCObjectIsNewExceptionDescription userInfo:@{MCExceptionObjectUserInfoKey : object}];
+	}
+	
+	[[object updateRequest] sendWithBlock:^(MCRequest *request, id response, NSError *error) {
 		if (!error) {
-			if (block) block([[objects objects] lastObject], nil);
+			if (block) block([[(MCObjectCollection *)response objects] anyObject], nil);
 		} else {
 			if (block) block(nil, error);
 		}
@@ -63,9 +90,13 @@
 }
 
 - (void)deleteObject:(MCObject *)object withBlock:(MCObjectBlock)block {
-	[[object deleteRequest] sendWithBlock:^(MCRequest *request, MCObjectCollection *objects, NSError *error) {
+	if ([object isNew]) {
+		@throw [NSException exceptionWithName:MCObjectIsNewException reason:MCObjectIsNewExceptionDescription userInfo:@{MCExceptionObjectUserInfoKey : object}];
+	}
+	
+	[[object deleteRequest] sendWithBlock:^(MCRequest *request, id response, NSError *error) {
 		if (!error) {
-			if (block) block([[objects objects] lastObject], nil);
+			if (block) block([[(MCObjectCollection *)response objects] anyObject], nil);
 		} else {
 			if (block) block(nil, error);
 		}

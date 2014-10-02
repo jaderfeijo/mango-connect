@@ -29,7 +29,7 @@
 			NSError *parsingError = nil;
 			TBXML *xml = [[TBXML alloc] initWithXMLData:data error:&parsingError];
 			if (!parsingError) {
-				MCObjectCollection *objects = [[MCObjectCollection alloc] initWithContext:[self context]];
+				MCObjectCollection *objects = [[MCObjectCollection alloc] initWithEntity:[[self object] entity] context:[self context]];
 				[objects addObject:[self object]];
 				
 				TBXMLElement *rootElement = [xml rootXMLElement];

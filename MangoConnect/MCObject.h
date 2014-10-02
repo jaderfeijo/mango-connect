@@ -31,6 +31,8 @@ typedef void(^MCObjectCompletionBlock)(id object, NSError *error);
 -(BOOL)isNew;
 -(BOOL)isFault;
 
+-(void)fault;
+
 -(NSArray *)propertyNames;
 
 -(void)setValue:(id)value forProperty:(NSString *)property;
