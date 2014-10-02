@@ -11,7 +11,7 @@
 #import "TBXML.h"
 #import "TCMXMLWriter.h"
 
-typedef void(^MCObjectCompletionBlock)(id object, NSError *error);
+typedef void(^MCObjectCompletionBlock)(NSError *error);
 
 @class MCObjectContext;
 @class MCRequest;
@@ -52,5 +52,11 @@ typedef void(^MCObjectCompletionBlock)(id object, NSError *error);
 -(MCRequest *)createRequest;
 -(MCRequest *)updateRequest;
 -(MCRequest *)deleteRequest;
+
+-(void)fetchObjectsForProperty:(NSString *)property withBlock:(MCObjectCompletionBlock)block;
+-(void)fetchWithBlock:(MCObjectCompletionBlock)block;
+-(void)createWithBlock:(MCObjectCompletionBlock)block;
+-(void)updateWithBlock:(MCObjectCompletionBlock)block;
+-(void)deleteWithBlock:(MCObjectCompletionBlock)block;
 
 @end

@@ -227,22 +227,6 @@ NSString * PropertyNameFromSelector(SEL selector, NSString *prefix) {
 	[set removeAllObjects];
 }
 
-- (MCRequest *)fetchRequest {
-	return [[MCFetchObjectRequest alloc] initWithObject:self];
-}
-
-- (MCRequest *)createRequest {
-	return [[MCCreateObjectRequest alloc] initWithObject:self];
-}
-
-- (MCRequest *)updateRequest {
-	return [[MCUpdateObjectRequest alloc] initWithObject:self];
-}
-
-- (MCRequest *)deleteRequest {
-	return [[MCDeleteObjectRequest alloc] initWithObject:self];
-}
-
 - (NSData *)toXMLData {
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
 	[writer instructXML];
@@ -329,6 +313,66 @@ NSString * PropertyNameFromSelector(SEL selector, NSString *prefix) {
 		}
 		attributeElement = attributeElement->nextSibling;
 	}
+}
+
+- (MCRequest *)fetchRequest {
+	return [[MCFetchObjectRequest alloc] initWithObject:self];
+}
+
+- (MCRequest *)createRequest {
+	return [[MCCreateObjectRequest alloc] initWithObject:self];
+}
+
+- (MCRequest *)updateRequest {
+	return [[MCUpdateObjectRequest alloc] initWithObject:self];
+}
+
+- (MCRequest *)deleteRequest {
+	return [[MCDeleteObjectRequest alloc] initWithObject:self];
+}
+
+- (void)fetchObjectsForProperty:(NSString *)property withBlock:(MCObjectCompletionBlock)block {
+	NSSet *allObjects = [self valueForProperty:property];
+	NSMutableSet *faultObjects = [[NSMutableSet alloc] initWithCapacity:[allObjects count]];
+	MCEntity *entity = nil;
+	for (MCObject *object in allObjects) {
+		if (!entity) entity = [object entity];
+		if ([object isFault]) {
+			[faultObjects addObject:object];
+		}
+	}
+	
+	if ([faultObjects count] > 0) {
+		[[self context] fetchObjects:faultObjects ofEntity:entity withBlock:^(MCObjectCollection *objects, NSError *error) {
+			if (block) block(error);
+		}];
+	} else {
+		if (block) block(nil);
+	}
+}
+
+- (void)fetchWithBlock:(MCObjectCompletionBlock)block {
+	[[self context] fetchObject:self withBlock:^(id object, NSError *error) {
+		if (block) block(error);
+	}];
+}
+
+- (void)createWithBlock:(MCObjectCompletionBlock)block {
+	[[self context] createObject:self withBlock:^(id object, NSError *error) {
+		if (block) block(error);
+	}];
+}
+
+- (void)updateWithBlock:(MCObjectCompletionBlock)block {
+	[[self context] updateObject:self withBlock:^(id object, NSError *error) {
+		if (block) block(error);
+	}];
+}
+
+- (void)deleteWithBlock:(MCObjectCompletionBlock)block {
+	[[self context] deleteObject:self withBlock:^(id object, NSError *error) {
+		if (block) block(error);
+	}];
 }
 
 @end
