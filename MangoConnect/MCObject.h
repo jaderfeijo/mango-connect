@@ -53,7 +53,7 @@ typedef void(^MCObjectCompletionBlock)(NSError *error);
 -(MCRequest *)updateRequest;
 -(MCRequest *)deleteRequest;
 
--(void)fetchObjectsForProperty:(NSString *)property withBlock:(MCObjectCompletionBlock)block;
+-(void)fetchObjectsForProperty:(SEL)property withBlock:(MCObjectCompletionBlock)block;
 -(void)fetchWithBlock:(MCObjectCompletionBlock)block;
 -(void)createWithBlock:(MCObjectCompletionBlock)block;
 -(void)updateWithBlock:(MCObjectCompletionBlock)block;

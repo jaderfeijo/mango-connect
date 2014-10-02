@@ -331,21 +331,25 @@ NSString * PropertyNameFromSelector(SEL selector, NSString *prefix) {
 	return [[MCDeleteObjectRequest alloc] initWithObject:self];
 }
 
-- (void)fetchObjectsForProperty:(NSString *)property withBlock:(MCObjectCompletionBlock)block {
-	NSSet *allObjects = [self valueForProperty:property];
-	NSMutableSet *faultObjects = [[NSMutableSet alloc] initWithCapacity:[allObjects count]];
-	MCEntity *entity = nil;
-	for (MCObject *object in allObjects) {
-		if (!entity) entity = [object entity];
-		if ([object isFault]) {
-			[faultObjects addObject:object];
+- (void)fetchObjectsForProperty:(SEL)property withBlock:(MCObjectCompletionBlock)block {
+	NSSet *allObjects = [self valueForProperty:NSStringFromSelector(property)];
+	if ([allObjects isKindOfClass:[NSSet class]]) {
+		NSMutableSet *faultObjects = [[NSMutableSet alloc] initWithCapacity:[allObjects count]];
+		MCEntity *entity = nil;
+		for (MCObject *object in allObjects) {
+			if (!entity) entity = [object entity];
+			if ([object isFault]) {
+				[faultObjects addObject:object];
+			}
 		}
-	}
-	
-	if ([faultObjects count] > 0) {
-		[[self context] fetchObjects:faultObjects ofEntity:entity withBlock:^(MCObjectCollection *objects, NSError *error) {
-			if (block) block(error);
-		}];
+		
+		if ([faultObjects count] > 0) {
+			[[self context] fetchObjects:faultObjects ofEntity:entity withBlock:^(MCObjectCollection *objects, NSError *error) {
+				if (block) block(error);
+			}];
+		} else {
+			if (block) block(nil);
+		}
 	} else {
 		if (block) block(nil);
 	}
